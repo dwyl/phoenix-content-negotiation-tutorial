@@ -41,7 +41,10 @@ defmodule App.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+
+      # quotes library: https://github.com/dwyl/quotes
+      {:quotes, "~> 1.0.5"}
     ]
   end
 
