@@ -1,15 +1,15 @@
 <div align="center">
 
-# Phoenix Content Negotiation _Example_
+# Phoenix Content Negotiation _Tutorial_
 
-An example showing how to return different content
+A tutorial showing how to return different content
 for the same route based on `Accepts` header.
 
 </div>
 
 ## Why? 🤷
 
-The purpose of this example is to demonstrate how simple
+The purpose of this tutorial is to demonstrate how simple
 it is to turn _any_ Phoenix Web App into a REST API
 using the _same_ URI.
 
@@ -134,7 +134,7 @@ and
 [github.com/dwyl/**learn-phoenix-framework**](https://github.com/dwyl/learn-phoenix-framework)
 
 Ideally follow the "Chat" example
-for more detailed step-by-step introduction to Phoenix,
+for more detailed step-by-step introduction to Phoenix:
 [github.com/dwyl/**phoenix-chat-example**](https://github.com/dwyl/phoenix-chat-example)
 
 Once you are comfortable with Phoenix, proceed with this example!
@@ -158,19 +158,12 @@ https://hexdocs.pm/phoenix/Mix.Tasks.Phx.New.html <br />
 > The beauty is that this simple use-case
 is identical to the advanced one.
 Once you understand these basic principals,
-you "grock" how to use `auth_plug` _anywhere_!
+you "grock" how to use Content Negotiation in a more advanced app.
+
+> **Note**: We default to calling _all_ our apps "App" for simplicity.
+Some people prefer other more elaborate names. We like this one.
 
 
 Change into the `app` directory (`cd app`)
 and open the project in your text editor (or IDE). <br />
 e.g: `atom .`
-
-
-
-```
-mix phx.new app --no-ecto --no-webpack
-```
-
-
-We default to calling our app "App" for simplicity.
-Some people prefer other names we like this one.
