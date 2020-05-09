@@ -167,3 +167,30 @@ Some people prefer other more elaborate names. We like this one.
 Change into the `app` directory (`cd app`)
 and open the project in your text editor (or IDE). <br />
 e.g: `atom .`
+
+#### 1.1 Check That Everything _Works_
+
+_Before_ diving in to add any features to our app,
+let's check that it _works_.
+Run the server in your terminal:
+
+```sh
+mix phx.server
+```
+
+Then visit [`localhost:4000`](http://localhost:4000) in your web browser. <br />
+You should see something like this (_the default Phoenix home page_):
+
+![phoenix-homepage-default](https://user-images.githubusercontent.com/194400/81491226-cfa09480-9283-11ea-9d3b-4687b3f4aae4.png)
+
+
+Having confirmed that the UI works,
+let's run the tests:
+
+```
+mix test
+```
+
+
+
+### 2
