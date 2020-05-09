@@ -1,14 +1,19 @@
+<div align="center">
+
 # Phoenix Content Negotiation _Example_
 
-A micro example showing how to return different content
-for the same route based on accepts header.
+An example showing how to return different content
+for the same route based on `Accepts` header.
 
+</div>
 
 ## Why? 🤷
 
 The purpose of this example is to demonstrate how simple
 it is to turn _any_ Phoenix Web App into a REST API
-using the _same_ routes.
+using the _same_ URI.
+
+
 
 ### Goal? 🎯
 
@@ -36,6 +41,23 @@ is just _one_ representation of what is _possible_.
 In our
 [App](https://github.com/dwyl/app)
 we want to ensure that
+_any_ request that can be made in the UI
+has a corresponding JSON response
+without any _duplication_ of _effort_.
+We _definitely_ don't want to have to
+run/maintain two _separate_ Phoenix Apps
+as we know (_from experience_)
+that the functionality will diverge
+almost immediately
+as a contributor who is building their own UI
+will make an API-focussed addition and _forget_
+to add the corresponding web UI (_or vice versa_).
+We don't want to have to "_police_" the PRs
+or _force_ anyone to have to write the same code twice.
+We want a JSON response to be _automatically_ available
+for every route and never have to think about it.
+We want _anyone_ to be able to build an App/UI
+using our API.
 
 
 
@@ -51,20 +73,25 @@ specified by the requesting agent (e.g. a Web Browser or script),
 a different _representation_ of the content can be returned.
 
 
-
 If the concept of HTTP content negotiation is new to you,
-we suggest you read the detailed article on MDN:
+we suggest you read the detailed article on MDN (5 mins):
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation
+
 
 ### _Try_ It! 💻
 
 _Before_ you attempt to follow the example,
-Try the Heroku example version so you know what to expect:
+Try the Heroku example version so you know what to expect.
 
 
 #### Browser 📱
 
 Visit:
+
+Random
+
+By ID:
+
 
 
 
@@ -80,22 +107,43 @@ Run the following command:
 ## Who?
 
 
-This example is for us @dwyl
-who will be building our API and App Web UI simultaneously.
+This example aimed at _anyone_ building a Phoenix App
+who wants to _automatically_ have a REST API.
+For us @dwyl
+who are building our API and App Web UI simultaneously,
+it serves as a gentle intro to the topic.
 
+If you get stuck or have _any_ questions,
+please
+[ask](https://github.com/nelsonic/phoenix-content-negotiation-example/issues)
 
-will be using **`auth_plug`**
-in all our projects and more specifically for our
-[`App`](https://github.com/dwyl/app).
-But we have made it as _generic_ as possible
-to show that _anyone_ can use (an instance of the) Auth Service
-to add Auth to _any_ app in less than 2 minutes!
-
-
+<br />
 
 ## How?
 
+### Prerequisites?
+
+This example assumes you have `Elixir` and `Phoenix`
+installed on your computer
+and that you have some _basic_ familiarity
+with the language and framework respectively.
+If you are totally new to either of these,
+we recommend you _first_ read:
+[github.com/dwyl/**learn-elixir**](https://github.com/dwyl/learn-elixir)
+and
+[github.com/dwyl/**learn-phoenix-framework**](https://github.com/dwyl/learn-phoenix-framework)
+
+Ideally follow the "Chat" example
+for more detailed step-by-step introduction to Phoenix,
+[github.com/dwyl/**phoenix-chat-example**](https://github.com/dwyl/phoenix-chat-example)
+
+Once you are comfortable with Phoenix, proceed with this example!
+
+
 ### 1. Create New Phoenix App
+
+In your terminal, run the following command to create a new app:
+
 
 ```
 mix phx.new app --no-ecto --no-webpack
