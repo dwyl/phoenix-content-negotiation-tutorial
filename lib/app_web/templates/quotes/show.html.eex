@@ -1,0 +1,28 @@
+<h1>Show Quotes</h1>
+
+<ul>
+
+  <li>
+    <strong>Author:</strong>
+    <%= @quotes.author %>
+  </li>
+
+  <li>
+    <strong>Text:</strong>
+    <%= @quotes.text %>
+  </li>
+
+  <li>
+    <strong>Tags:</strong>
+    <%= @quotes.tags %>
+  </li>
+
+  <li>
+    <strong>Source:</strong>
+    <%= @quotes.source %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.quotes_path(@conn, :edit, @quotes) %></span>
+<span><%= link "Back", to: Routes.quotes_path(@conn, :index) %></span>
