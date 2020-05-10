@@ -78,6 +78,18 @@ we suggest you read the detailed article on MDN (5 mins):
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation
 
 
+### What Are We Building?
+
+We are going to build a famous quotations Website and API.
+When people visit: `/quotes/random` they will see a random quotation.
+When they visit: `/quotes/:id` (e.g: "")
+
+
+Here's a handy list of quotes we made earlier:
+https://github.com/dwyl/quotes 😉
+
+
+
 ### _Try_ It! 💻
 
 _Before_ you attempt to follow the example,
@@ -140,6 +152,18 @@ for more detailed step-by-step introduction to Phoenix:
 Once you are comfortable with Phoenix, proceed with this example!
 
 
+### 0. Understand the Tutorial Aim
+
+The aim of this tutorial is to demonstrate
+content negotiation in a real-world scenario.
+We are going to build a simple interface to display
+famous quotations.
+
+By the end
+Our aim is to have two routes
+
+
+
 ### 1. Create New Phoenix App
 
 In your terminal, run the following command to create a new app:
@@ -191,6 +215,46 @@ let's run the tests:
 mix test
 ```
 
+You should see the following output in your terminal:
+
+```
+Generated app app
+...
+
+Finished in 0.02 seconds
+3 tests, 0 failures
+```
+
+### Tutorial Objective
 
 
-### 2
+
+
+### 2. Generate `Quotes` Controller, View & Templates   
+
+
+mix phx.gen.html Quotes quotes --no-context --no-schema
+
+
+
+
+
+
+### 3. Add Quotes!
+
+As per the instructions: https://github.com/dwyl/quotes#elixir
+add the `quotes` dependency to `mix.exs`:
+
+```elixir
+{:quotes, "~> 1.0.5"}
+```
+
+> e.g [`mix.exs#L47`](https://github.com/nelsonic/phoenix-content-negotiation-tutorial/blob/721b4c208e01e79ea9f2671cba13b515049f310b/mix.exs#L47)
+
+Then run:
+
+```sh
+mix deps.get
+```
+
+### 4.
