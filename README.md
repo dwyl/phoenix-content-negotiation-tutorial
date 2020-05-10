@@ -233,10 +233,50 @@ Finished in 0.02 seconds
 ### 2. Generate `Quotes` Controller, View & Templates   
 
 
-mix phx.gen.html Quotes quotes --no-context --no-schema
+mix phx.gen.html Ctx Quotes quotes author:string text:string tags:string source:string --no-context --no-schema
+
+You should see the following output:
+
+```
+* creating lib/app_web/controllers/quotes_controller.ex
+* creating lib/app_web/templates/quotes/edit.html.eex
+* creating lib/app_web/templates/quotes/form.html.eex
+* creating lib/app_web/templates/quotes/index.html.eex
+* creating lib/app_web/templates/quotes/new.html.eex
+* creating lib/app_web/templates/quotes/show.html.eex
+* creating lib/app_web/views/quotes_view.ex
+* creating test/app_web/controllers/quotes_controller_test.exs
+
+Add the resource to your browser scope in lib/app_web/router.ex:
+
+    resources "/quotes", QuotesController
+```
+
+Let's follow the instructions to add the resources to `lib/app_web/router.ex`
 
 
 
+#### 2.1 Tidy Up (_Optional_)
+
+In our case we are not going to be creating or editing any quotes
+as we already have our "bank" of quotes
+and for simplicity we don't _want_ to run a Database for this example
+so we can focus on rendering the content and not the "_management_".
+
+Let's `delete` the files we don't _need_:
+
+```
+rm lib/app_web/templates/quotes/edit.html.eex
+rm lib/app_web/templates/quotes/form.html.eex
+rm lib/app_web/templates/quotes/new.html.eex
+```
+
+
+> Note: if you want to _extend_ this tutorial
+to allow for creating `new` quotes both via UI and API,
+please open an
+[issue](https://github.com/nelsonic/phoenix-content-negotiation-tutorial/issues)
+We think it's a _good_ idea to add `POST` endpoints.
 
 
 
