@@ -1,0 +1,32 @@
+<h1>Listing Quotes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Author</th>
+      <th>Text</th>
+      <th>Tags</th>
+      <th>Source</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for quotes <- @quotes do %>
+    <tr>
+      <td><%= quotes.author %></td>
+      <td><%= quotes.text %></td>
+      <td><%= quotes.tags %></td>
+      <td><%= quotes.source %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.quotes_path(@conn, :show, quotes) %></span>
+        <span><%= link "Edit", to: Routes.quotes_path(@conn, :edit, quotes) %></span>
+        <span><%= link "Delete", to: Routes.quotes_path(@conn, :delete, quotes), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Quotes", to: Routes.quotes_path(@conn, :new) %></span>

@@ -240,8 +240,9 @@ Finished in 0.02 seconds
 
 
 ```
-mix phx.gen.html Ctx Quotes quotes author:string text:string tags:string source:string
+mix phx.gen.html Context Quotes quotes author:string text:string tags:string source:string --no-schema
 ```
+
 
 
 
@@ -256,6 +257,10 @@ You should see the following output:
 * creating lib/app_web/templates/quotes/show.html.eex
 * creating lib/app_web/views/quotes_view.ex
 * creating test/app_web/controllers/quotes_controller_test.exs
+* creating lib/app/context.ex
+* injecting lib/app/context.ex
+* creating test/app/context_test.exs
+* injecting test/app/context_test.exs
 
 Add the resource to your browser scope in lib/app_web/router.ex:
 
@@ -264,7 +269,7 @@ Add the resource to your browser scope in lib/app_web/router.ex:
 
 
 > The commit of files created in this step:
-[9a37b21](https://github.com/dwyl/phoenix-content-negotiation-tutorial/commit/9a37b21192ae7360c59ae51d72ea9fd470f748e1)
+[]()
 
 #### 2.1 Remove References to `Ctx` from `quotes_controller.ex`
 
