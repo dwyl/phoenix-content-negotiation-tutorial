@@ -124,8 +124,8 @@ Run the following command:
 
 
 This example aimed at _anyone_ building a Phoenix App
-who wants to _automatically_ have a REST API.
-For us @dwyl
+who wants to _automatically_ have a REST API. <br />
+For us [`@dwyl`]()
 who are building our API and App Web UI simultaneously,
 it serves as a gentle intro to the topic.
 
@@ -156,8 +156,9 @@ for more detailed step-by-step introduction to Phoenix:
 Once you are comfortable with Phoenix, proceed with this example!
 
 
-By the end
-Our aim is to have two routes
+### Is there an _Official_ Way of Doing Content Negotiation?
+
+
 
 
 
@@ -234,12 +235,12 @@ Finished in 0.02 seconds
 
 
 
-### 2. Generate `Quotes` Controller, View & Templates   
+### 2. Generate the `Quotes` Controller, View, Templates and Tests
 
 
 
 ```
-mix phx.gen.html Ctx Quotes quotes author:string text:string tags:string source:string --no-context --no-schema
+mix phx.gen.html Ctx Quotes quotes author:string text:string tags:string source:string
 ```
 
 
@@ -296,10 +297,20 @@ but it still cannot be found, you likely have cyclic module usage in your code
 
 
 
+> Before:
+[`quotes_controller.ex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/538fcd3388d8e9a7e4373600b2a33db686d15bc5/lib/app_web/controllers/quotes_controller.ex)
+> and
+> After:
+[`quotes_controller.ex`]()
 
-With tests passing again, let's do a bit of tidying up.
 
-#### 2.1 Add the Quotes Resources to `lib/app_web/router.ex`
+With tests passing again, let's do a bit of tidying up before proceeding.
+
+
+
+
+
+#### 2.3 Add the Quotes Resources to `lib/app_web/router.ex`
 
 Let's follow the instructions to add the resources to `lib/app_web/router.ex`
 
