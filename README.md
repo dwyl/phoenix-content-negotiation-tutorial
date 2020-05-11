@@ -172,15 +172,40 @@ If for any reason it _doesn't_ work, you can
 
 #### Clone the Repository
 
+In your terminal, clone the repo from GitHub:
+
+```
+git clone git@github.com:dwyl/phoenix-content-negotiation-tutorial.git
+```
 
 #### Install The Dependencies
 
+Change into the newly created directory and run the `mix` command:
+
+```
+cd phoenix-content-negotiation-tutorial
+mix deps.get
+```
 
 
 #### Run the App
 
+Run the Phoenix app with the following command:
+
+```
+mix phx.server
+```
+
+You should see output similar to the following in your terminal:
+
+```sh
+[info] Running AppWeb.Endpoint with cowboy 2.7.0 at 0.0.0.0:4000 (http)
+[info] Access AppWeb.Endpoint at http://localhost:4000
+```
+
 
 #### Test it in your Browser
+
 
 
 #### Test it in your Terminal
