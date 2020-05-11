@@ -78,11 +78,16 @@ we suggest you read the detailed article on MDN (5 mins):
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation
 
 
-### What Are We Building?
+### What Are We Building?
 
-We are going to build a famous quotations Website and API.
-When people visit: `/quotes/random` they will see a random quotation.
-When they visit: `/quotes/:id` (e.g: "")
+The aim of this tutorial is to demonstrate
+content negotiation in a real-world scenario.
+We are going to build a simple interface to display
+famous quotations, both a Web UI and API. <br />
+When people visit: `/quotes/random` they will see a random quotation. <br />
+When they visit: `/quotes/:id` (e.g: `/quotes/42`)
+the 42<sup>nd</sup> quote in the
+[`quotes.json`](https://github.com/dwyl/quotes/blob/master/quotes.json)
 
 
 Here's a handy list of quotes we made earlier:
@@ -99,6 +104,8 @@ Try the Heroku example version so you know what to expect.
 #### Browser 📱
 
 Visit:
+
+
 
 Random
 
@@ -151,13 +158,6 @@ for more detailed step-by-step introduction to Phoenix:
 
 Once you are comfortable with Phoenix, proceed with this example!
 
-
-### 0. Understand the Tutorial Aim
-
-The aim of this tutorial is to demonstrate
-content negotiation in a real-world scenario.
-We are going to build a simple interface to display
-famous quotations.
 
 By the end
 Our aim is to have two routes
@@ -256,7 +256,10 @@ Let's follow the instructions to add the resources to `lib/app_web/router.ex`
 
 
 
-#### 2.1 Tidy Up (_Optional_)
+
+
+
+#### 2.1 Tidy Up: Delete Unused Files (_Optional_)
 
 In our case we are not going to be creating or editing any quotes
 as we already have our "bank" of quotes
