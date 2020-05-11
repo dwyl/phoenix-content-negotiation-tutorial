@@ -42,8 +42,8 @@ is just _one_ representation of what is _possible_.
 In our
 [App](https://github.com/dwyl/app)
 we want to ensure that
-_any_ request that can be made in the UI
-has a corresponding JSON response
+_all_ requests that can be made in the `Web UI`
+have a corresponding `JSON` response
 without any _duplication_ of _effort_.
 We _definitely_ don't want to have to
 run/maintain two _separate_ Phoenix Apps
@@ -155,11 +155,34 @@ for more detailed step-by-step introduction to Phoenix:
 
 Once you are comfortable with Phoenix, proceed with this example!
 
+<br />
 
-### Is there an _Official_ Way of Doing Content Negotiation?
+### Q: Is there an _Official_ Way of Doing Content Negotiation?
 
+While there is no "_official_" guide in the docs
+for how to do content negotiation,
+there is an issue/thread where it is discussed:
+[phoenix/issues/1054](https://github.com/phoenixframework/phoenix/issues/1054)
 
+Both [José Valim](https://github.com/josevalim)
+the creator of `Elixir` and
+[Chris McCord](https://github.com/chrismccord)
+creator of `Phoenix` have given input in the issue.
+So we have a fairly good notion that this is
+the _acceptable_ way of doing content negotiation in a Phoenix App.
 
+José outlines the Plug approach:
+![josevalim-plug-router](https://user-images.githubusercontent.com/194400/81637506-7add5500-940e-11ea-8a7f-200268d34946.png)
+
+Chris advises to use `Phoenix.Controller.get_format` and pattern matching:
+![chris-pattern-matching](https://user-images.githubusercontent.com/194400/81637373-0bfffc00-940e-11ea-8ccd-e42b048bef42.png)
+
+Chris also created a Gist:
+https://gist.github.com/chrismccord/31340f08d62de1457454
+Which shows how to do content negotiation based on `params.format`.
+We have used this approach into our tutorial.
+
+<br />
 
 
 ### 1. Create New Phoenix App
@@ -234,15 +257,36 @@ Finished in 0.02 seconds
 ```
 
 
+### 2. Add Quotes!
 
-### 2. Generate the `Quotes` Controller, View, Templates and Tests
+As per the instructions: https://github.com/dwyl/quotes#elixir
+add the `quotes` dependency to `mix.exs`:
+
+```elixir
+{:quotes, "~> 1.0.5"}
+```
+
+> e.g [`mix.exs#L47`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/721b4c208e01e79ea9f2671cba13b515049f310b/mix.exs#L47)
+
+Then run:
+
+```sh
+mix deps.get
+```
+
+That will download the `quotes` package which contains the
+
+
+
+
+
+### 3. Generate the `Quotes` Controller, View, Templates and Tests
 
 
 
 ```
 mix phx.gen.html Context Quotes quotes author:string text:string tags:string source:string --no-schema
 ```
-
 
 
 
@@ -269,12 +313,14 @@ Add the resource to your browser scope in lib/app_web/router.ex:
 
 
 > The commit of files created in this step:
-[]()
+[0235d3f](https://github.com/dwyl/phoenix-content-negotiation-tutorial/commit/0235d3fd4cd7a9a6561a2a7b421b8e687dcf0cda)
 
-#### 2.1 Remove References to `Ctx` from `quotes_controller.ex`
+#### 2.1 Fix Broken Code
 
 _Sadly_, this `mix phx.gen` command
 does not do _exactly_ what we expect.
+
+
 The `quotes_controller.ex` still has references
 to a Context even though we specified `--no-context`.
 We opened an issue to clarify the behaviour:
@@ -291,13 +337,10 @@ mix test
 You will see the following compilation error:
 
 ```sh
-== Compilation error in file lib/app_web/controllers/quotes_controller.ex ==
-** (CompileError) lib/app_web/controllers/quotes_controller.ex:13: App.Ctx.Quotes.__struct__/1 is undefined, cannot expand struct App.Ctx.Quotes.
-Make sure the struct name is correct. If the struct name exists and is correct
-but it still cannot be found, you likely have cyclic module usage in your code
-    (stdlib 3.11.2) lists.erl:1354: :lists.mapfoldl/3
-    lib/app_web/controllers/quotes_controller.ex:12: (module)
-    (stdlib 3.11.2) erl_eval.erl:680: :erl_eval.do_apply/6
+Compiling 18 files (.ex)
+
+== Compilation error in file lib/app/context.ex ==
+** (CompileError) lib/app/context.ex:6: module Ecto.Query is not loaded and could not be found
 ```
 
 
@@ -343,23 +386,5 @@ rm lib/app_web/templates/quotes/new.html.eex
 ```
 
 
-
-
-### 3. Add Quotes!
-
-As per the instructions: https://github.com/dwyl/quotes#elixir
-add the `quotes` dependency to `mix.exs`:
-
-```elixir
-{:quotes, "~> 1.0.5"}
-```
-
-> e.g [`mix.exs#L47`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/721b4c208e01e79ea9f2671cba13b515049f310b/mix.exs#L47)
-
-Then run:
-
-```sh
-mix deps.get
-```
 
 ### 4.
