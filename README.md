@@ -157,6 +157,44 @@ Once you are comfortable with Phoenix, proceed with this example!
 
 <br />
 
+### 0. Run the _Finished_ App
+
+We encourage everyone to
+["_Begin With the End in Mind_"](https://en.wikipedia.org/wiki/The_7_Habits_of_Highly_Effective_People#2_-_Begin_with_the_end_in_mind)
+so suggest that you run finished App on your `localhost`
+_before_ attempting to build it.
+Seeing the App _working_ on your machine will
+give you confidence that we will achieve our objectives (defined above)
+and it's a good reference if you get stuck.
+
+If for any reason it _doesn't_ work, you can
+[**open an issue**](https://github.com/dwyl/phoenix-content-negotiation-tutorial/issues)
+
+#### Clone the Repository
+
+
+#### Install The Dependencies
+
+
+
+#### Run the App
+
+
+#### Test it in your Browser
+
+
+#### Test it in your Terminal
+
+
+
+
+
+
+Now that you know the end state of the tutorial _works_,
+change out of the directory `cd ..`
+and let's re-create it from scratch!
+
+<br />
 
 ### 1. Create New Phoenix App
 
@@ -229,8 +267,12 @@ Finished in 0.02 seconds
 3 tests, 0 failures
 ```
 
+<br />
 
 ### 2. Add Quotes!
+
+In order to display quotes in the UI/API we need a source of quotes.
+Here's one we made earlier: https://hex.pm/packages/quotes
 
 As per the instructions: https://github.com/dwyl/quotes#elixir
 add the `quotes` dependency to `mix.exs`:
@@ -247,9 +289,31 @@ Then run:
 mix deps.get
 ```
 
-That will download the `quotes` package which contains the
+That will download the `quotes` package which contains the `quote.json` file
+and Elixir functions to interact with it.
+
+#### 2.1 Try It in `iex`!
+
+In your terminal type:
+```
+iex -S mix
+```
+
+In the `iex` prompt type: `Quotes.random()` you will see a random quote.
+
+```elixir
+iex> Quotes.random()
+%{
+  "author" => "Lao Tzu",
+  "text" => "If you would take, you must first give, this is the beginning of intelligence."
+}
+```
+
+Great! so we know our quotes library is loaded into our Phoenix App.
+Quit `iex` and let's get back to building the App.
 
 
+<br />
 
 
 
@@ -288,10 +352,43 @@ Add the resource to your browser scope in lib/app_web/router.ex:
 > The commit of files created in this step:
 [0235d3f](https://github.com/dwyl/phoenix-content-negotiation-tutorial/commit/0235d3fd4cd7a9a6561a2a7b421b8e687dcf0cda)
 
-#### 2.1 Fix Broken Code
+
+#### 3.1 Add the Quotes Resources to `lib/app_web/router.ex`
+
+Let's follow the instructions
+given by the output of the `mix phx.gen.html` command
+to add the resources to `lib/app_web/router.ex`.
+
+Open the `router.ex` file
+and locate the `scope "/", AppWeb do` block:
+
+```elixir
+scope "/", AppWeb do
+  pipe_through :browser
+
+  get "/", PageController, :index
+end
+```
+
+add the following line to the block:
+
+```elixir
+resources "/quotes", QuotesController
+```
+
+> Before:
+[`router.ex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/master/lib/app_web/router.ex)
+> and
+> _After_:
+
+
+
+
+#### 3.2 Fix Broken Code
 
 _Sadly_, this `mix phx.gen` command
 does not do _exactly_ what we expect.
+
 
 
 The `quotes_controller.ex` still has references
@@ -331,18 +428,6 @@ With tests passing again, let's do a bit of tidying up before proceeding.
 
 
 
-#### 2.3 Add the Quotes Resources to `lib/app_web/router.ex`
-
-Let's follow the instructions to add the resources to `lib/app_web/router.ex`
-
-Open the
-
-
-> Before: [`router.ex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/master/lib/app_web/router.ex)
-> and
-> _After_:
-
-
 #### 2.2 Tidy Up: Delete Unused Files (_Optional_)
 
 In our case we are not going to be creating or editing any quotes
@@ -358,9 +443,12 @@ rm lib/app_web/templates/quotes/form.html.eex
 rm lib/app_web/templates/quotes/new.html.eex
 ```
 
-
+<br />
 
 ### 4.
+
+
+
 
 <br /> <br />
 
@@ -385,7 +473,7 @@ Chris advises to use `Phoenix.Controller.get_format` and pattern matching:
 ![chris-pattern-matching](https://user-images.githubusercontent.com/194400/81637373-0bfffc00-940e-11ea-8ccd-e42b048bef42.png)
 
 Chris also created a Gist:
-https://gist.github.com/chrismccord/31340f08d62de1457454
+https://gist.github.com/chrismccord/31340f08d62de1457454 <br />
 Which shows how to do content negotiation based on `params.format`.
 We have used this approach into our tutorial.
 
@@ -403,5 +491,5 @@ and found the thread useful.
 And in the future others will stumble upon it
 and be grateful that it exists. <br />
 Open issues with questions!
-It's the _right_ thing to do to learn and discuss all topics.
+It's the _right_ thing to do to learn and discuss all topics. <br />
 Both people in your team and complete strangers benefit!
