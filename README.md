@@ -35,6 +35,7 @@ We believe this is _crucial_ to the success of our product.
 We think the API _is_ our Product and the Web UI
 is just _one_ representation of what is _possible_.
 
+<br />
 
 ## What? 💡
 
@@ -78,20 +79,17 @@ we suggest you read the detailed article on MDN (5 mins):
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation
 
 
-### What Are We Building?
+### What Are We Building? ✨
 
 The aim of this tutorial is to demonstrate
-content negotiation in a real-world scenario.
+content negotiation in a real-world scenario. <br />
 We are going to build a simple interface to display
-famous quotations, both a Web UI and API. <br />
+famous quotations, both a basic Web UI and REST API. <br />
 When people visit: `/quotes/random` they will see a random quotation. <br />
 When they visit: `/quotes/:id` (e.g: `/quotes/42`)
 the 42<sup>nd</sup> quote in the
 [`quotes.json`](https://github.com/dwyl/quotes/blob/master/quotes.json)
-
-
-Here's a handy list of quotes we made earlier:
-https://github.com/dwyl/quotes 😉
+list.
 
 
 
@@ -120,8 +118,7 @@ By ID:
 Run the following command:
 
 
-
-
+<br />
 
 ## Who?
 
@@ -175,17 +172,27 @@ mix phx.new app --no-ecto --no-webpack
 When asked if you want to `Fetch and install dependencies? [Yn]`
 Type <kbd>Y</kbd> followed by the <kbd>Enter</kbd> key.
 
-> This example only needs the bare minimum Phoenix;
+> **Note**: This example only needs the bare minimum Phoenix;
 we don't need any JavaScript or Database. <br />
 For more info, see:
 https://hexdocs.pm/phoenix/Mix.Tasks.Phx.New.html <br />
-> The beauty is that this simple use-case
-is identical to the advanced one.
+> The beauty is that this _simple_ use-case
+is identical to the _advanced_ one.
 Once you understand these basic principals,
-you "grock" how to use Content Negotiation in a more advanced app.
+you "grock" how to use Content Negotiation
+in a more advanced app.
 
-> **Note**: We default to calling _all_ our apps "App" for simplicity.
+> **Note 2**: We default to calling _all_ our apps "App" for simplicity.
 Some people prefer other more elaborate names. We like this one.
+
+> **Note 3**: We have deliberately made this API "read only",
+again for simplicity.
+If you want to _extend_ this tutorial
+to allow for creating `new` quotes both via UI and API,
+please open an
+[issue](https://github.com/dwyl/phoenix-content-negotiation-tutorial/issues)
+We think it could be a _good_ idea to add `POST` endpoints as a "Bonus Level",
+but we don't want to complicate things for the _first_ part of the tutorial.
 
 
 Change into the `app` directory (`cd app`)
@@ -194,8 +201,8 @@ e.g: `atom .`
 
 #### 1.1 Check That Everything _Works_
 
-_Before_ diving in to add any features to our app,
-let's check that it _works_.
+_Before_ diving in to adding any features to our app,
+let's check that it _works_. <br />
 Run the server in your terminal:
 
 ```sh
@@ -225,15 +232,17 @@ Finished in 0.02 seconds
 3 tests, 0 failures
 ```
 
-### Tutorial Objective
-
-
 
 
 ### 2. Generate `Quotes` Controller, View & Templates   
 
 
+
+```
 mix phx.gen.html Ctx Quotes quotes author:string text:string tags:string source:string --no-context --no-schema
+```
+
+
 
 You should see the following output:
 
@@ -252,14 +261,57 @@ Add the resource to your browser scope in lib/app_web/router.ex:
     resources "/quotes", QuotesController
 ```
 
+
+> The commit of files created in this step:
+[9a37b21](https://github.com/dwyl/phoenix-content-negotiation-tutorial/commit/9a37b21192ae7360c59ae51d72ea9fd470f748e1)
+
+#### 2.1 Remove References to `Ctx` from `quotes_controller.ex`
+
+_Sadly_, this `mix phx.gen` command
+does not do _exactly_ what we expect.
+The `quotes_controller.ex` still has references
+to a Context even though we specified `--no-context`.
+We opened an issue to clarify the behaviour:
+https://github.com/phoenixframework/phoenix/issues/3832
+
+So, we need to tidy up the `quotes_controller.ex` before continuing.
+
+To see what I mean, try running the tests:
+
+```sh
+mix test
+```
+
+You will see the following compilation error:
+
+```sh
+== Compilation error in file lib/app_web/controllers/quotes_controller.ex ==
+** (CompileError) lib/app_web/controllers/quotes_controller.ex:13: App.Ctx.Quotes.__struct__/1 is undefined, cannot expand struct App.Ctx.Quotes.
+Make sure the struct name is correct. If the struct name exists and is correct
+but it still cannot be found, you likely have cyclic module usage in your code
+    (stdlib 3.11.2) lists.erl:1354: :lists.mapfoldl/3
+    lib/app_web/controllers/quotes_controller.ex:12: (module)
+    (stdlib 3.11.2) erl_eval.erl:680: :erl_eval.do_apply/6
+```
+
+
+
+
+With tests passing again, let's do a bit of tidying up.
+
+#### 2.1 Add the Quotes Resources to `lib/app_web/router.ex`
+
 Let's follow the instructions to add the resources to `lib/app_web/router.ex`
 
+Open the
 
 
+> Before: [`router.ex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/master/lib/app_web/router.ex)
+> and
+> _After_:
 
 
-
-#### 2.1 Tidy Up: Delete Unused Files (_Optional_)
+#### 2.2 Tidy Up: Delete Unused Files (_Optional_)
 
 In our case we are not going to be creating or editing any quotes
 as we already have our "bank" of quotes
@@ -275,12 +327,6 @@ rm lib/app_web/templates/quotes/new.html.eex
 ```
 
 
-> Note: if you want to _extend_ this tutorial
-to allow for creating `new` quotes both via UI and API,
-please open an
-[issue](https://github.com/nelsonic/phoenix-content-negotiation-tutorial/issues)
-We think it's a _good_ idea to add `POST` endpoints.
-
 
 
 ### 3. Add Quotes!
@@ -292,7 +338,7 @@ add the `quotes` dependency to `mix.exs`:
 {:quotes, "~> 1.0.5"}
 ```
 
-> e.g [`mix.exs#L47`](https://github.com/nelsonic/phoenix-content-negotiation-tutorial/blob/721b4c208e01e79ea9f2671cba13b515049f310b/mix.exs#L47)
+> e.g [`mix.exs#L47`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/721b4c208e01e79ea9f2671cba13b515049f310b/mix.exs#L47)
 
 Then run:
 
