@@ -2,7 +2,7 @@
 
 # Phoenix Content Negotiation _Tutorial_
 
-A tutorial showing how to return different content
+A tutorial showing how to return different content (format)
 for the same route based on `Accepts` header.
 
 </div>
@@ -154,33 +154,6 @@ for more detailed step-by-step introduction to Phoenix:
 [github.com/dwyl/**phoenix-chat-example**](https://github.com/dwyl/phoenix-chat-example)
 
 Once you are comfortable with Phoenix, proceed with this example!
-
-<br />
-
-### Q: Is there an _Official_ Way of Doing Content Negotiation?
-
-While there is no "_official_" guide in the docs
-for how to do content negotiation,
-there is an issue/thread where it is discussed:
-[phoenix/issues/1054](https://github.com/phoenixframework/phoenix/issues/1054)
-
-Both [José Valim](https://github.com/josevalim)
-the creator of `Elixir` and
-[Chris McCord](https://github.com/chrismccord)
-creator of `Phoenix` have given input in the issue.
-So we have a fairly good notion that this is
-the _acceptable_ way of doing content negotiation in a Phoenix App.
-
-José outlines the Plug approach:
-![josevalim-plug-router](https://user-images.githubusercontent.com/194400/81637506-7add5500-940e-11ea-8a7f-200268d34946.png)
-
-Chris advises to use `Phoenix.Controller.get_format` and pattern matching:
-![chris-pattern-matching](https://user-images.githubusercontent.com/194400/81637373-0bfffc00-940e-11ea-8ccd-e42b048bef42.png)
-
-Chris also created a Gist:
-https://gist.github.com/chrismccord/31340f08d62de1457454
-Which shows how to do content negotiation based on `params.format`.
-We have used this approach into our tutorial.
 
 <br />
 
@@ -388,3 +361,47 @@ rm lib/app_web/templates/quotes/new.html.eex
 
 
 ### 4.
+
+<br /> <br />
+
+### Q: Is there an _Official_ Way of Doing Content Negotiation?
+
+While there is no "_official_" guide in the docs
+for how to do content negotiation,
+there is an issue/thread where it is discussed:
+[phoenix/issues/1054](https://github.com/phoenixframework/phoenix/issues/1054)
+
+Both [José Valim](https://github.com/josevalim)
+the creator of `Elixir` and
+[Chris McCord](https://github.com/chrismccord)
+creator of `Phoenix` have given input in the issue.
+So we have a fairly good notion that this is
+the _acceptable_ way of doing content negotiation in a Phoenix App.
+
+José outlines the Plug approach:
+![josevalim-plug-router](https://user-images.githubusercontent.com/194400/81637506-7add5500-940e-11ea-8a7f-200268d34946.png)
+
+Chris advises to use `Phoenix.Controller.get_format` and pattern matching:
+![chris-pattern-matching](https://user-images.githubusercontent.com/194400/81637373-0bfffc00-940e-11ea-8ccd-e42b048bef42.png)
+
+Chris also created a Gist:
+https://gist.github.com/chrismccord/31340f08d62de1457454
+Which shows how to do content negotiation based on `params.format`.
+We have used this approach into our tutorial.
+
+<br />
+
+> **Note**: _this_ is a textbook example of _why_
+we open issues to ask questions.
+This thread shows the initial uncertainty of the original poster.
+There is a _discussion_ for why content negotiation is necessary
+and suggested approaches for doing it.
+Finally there is a comment from a person
+who discovered the issue _years_ later
+and found the thread useful.
+3 years later we are using it as the basis for our work!
+And in the future others will stumble upon it
+and be grateful that it exists. <br />
+Open issues with questions!
+It's the _right_ thing to do to learn and discuss all topics.
+Both people in your team and complete strangers benefit!
