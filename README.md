@@ -347,7 +347,7 @@ Quit `iex` and let's get back to building the App.
 
 
 ```
-mix phx.gen.html Context Quotes quotes author:string text:string tags:string source:string --no-schema
+mix phx.gen.html Context Quotes quotes author:string text:string tags:string source:string --no-schema --no-context
 ```
 
 
@@ -363,10 +363,6 @@ You should see the following output:
 * creating lib/app_web/templates/quotes/show.html.eex
 * creating lib/app_web/views/quotes_view.ex
 * creating test/app_web/controllers/quotes_controller_test.exs
-* creating lib/app/context.ex
-* injecting lib/app/context.ex
-* creating test/app/context_test.exs
-* injecting test/app/context_test.exs
 
 Add the resource to your browser scope in lib/app_web/router.ex:
 
@@ -375,7 +371,7 @@ Add the resource to your browser scope in lib/app_web/router.ex:
 
 
 > The commit of files created in this step:
-[0235d3f](https://github.com/dwyl/phoenix-content-negotiation-tutorial/commit/0235d3fd4cd7a9a6561a2a7b421b8e687dcf0cda)
+[9a37b21](https://github.com/dwyl/phoenix-content-negotiation-tutorial/commit/9a37b21192ae7360c59ae51d72ea9fd470f748e1)
 
 
 #### 3.1 Add the Quotes Resources to `lib/app_web/router.ex`
@@ -401,11 +397,8 @@ add the following line to the block:
 resources "/quotes", QuotesController
 ```
 
-> Before:
-[`router.ex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/master/lib/app_web/router.ex)
-> and
-> _After_:
-
+> Your `router.ex` file should now look like this:
+[`router.ex#L20`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/58e45a17ad44a2fee1cfef4e91b4dbede3a3b022/lib/app_web/router.ex#L20)
 
 
 
@@ -417,9 +410,7 @@ does not do _exactly_ what we expect.
 
 
 The `quotes_controller.ex` still has references
-to a Context even though we specified `--no-context`.
-We opened an issue to clarify the behaviour:
-https://github.com/phoenixframework/phoenix/issues/3832
+
 
 So, we need to tidy up the `quotes_controller.ex` before continuing.
 
@@ -450,6 +441,15 @@ Compiling 18 files (.ex)
 With tests passing again, let's do a bit of tidying up before proceeding.
 
 
+
+> **Note**: There is a use-case for `Context` larger apps
+to organise code but in a small app like the one we are building here,
+it adds unnecessary complexity.
+We attempted to use the `--no-context` flag
+in our `mix phx.gen.html` command,
+but the behaviour was
+We opened an issue to clarify the behaviour:
+https://github.com/phoenixframework/phoenix/issues/3832
 
 
 
