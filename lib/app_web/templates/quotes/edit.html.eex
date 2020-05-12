@@ -1,5 +1,0 @@
-<h1>Edit Quotes</h1>
-
-<%= render "form.html", Map.put(assigns, :action, Routes.quotes_path(@conn, :update, @quotes)) %>
-
-<span><%= link "Back", to: Routes.quotes_path(@conn, :index) %></span>
