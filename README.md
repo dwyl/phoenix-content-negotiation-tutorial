@@ -344,13 +344,9 @@ Quit `iex` and let's get back to building the App.
 
 ### 3. Generate the `Quotes` Controller, View, Templates and Tests
 
-
-
 ```
 mix phx.gen.html Context Quotes quotes author:string text:string tags:string source:string --no-schema --no-context
 ```
-
-
 
 You should see the following output:
 
@@ -370,7 +366,7 @@ Add the resource to your browser scope in lib/app_web/router.ex:
 ```
 
 
-> The commit of files created in this step:
+> Git commit of files created in this step:
 [9a37b21](https://github.com/dwyl/phoenix-content-negotiation-tutorial/commit/9a37b21192ae7360c59ae51d72ea9fd470f748e1)
 
 
@@ -401,20 +397,38 @@ resources "/quotes", QuotesController
 [`router.ex#L20`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/58e45a17ad44a2fee1cfef4e91b4dbede3a3b022/lib/app_web/router.ex#L20)
 
 
+#### 3.2 Tidy Up: Delete Unused Files (_Optional_)
 
-#### 3.2 Fix Broken Code
+The `mix phx.gen.html` command creates a bunch of files
+that are useful for "CRUD".
+In our case we are not going to be creating or editing any quotes
+as we already have our "bank" of quotes.
+For simplicity we don't _want_ to run a Database for this example
+so we can focus on rendering the content and not the "_management_".
+
+Let's **`delete`** the files we don't _need_ so our project is tidy:
+
+```
+rm lib/app_web/templates/quotes/edit.html.eex
+rm lib/app_web/templates/quotes/form.html.eex
+rm lib/app_web/templates/quotes/new.html.eex
+```
+
+> Commit:
+[`2d4ca13`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/commit/2d4ca1375385a390d184a8b14f451ca249deef26)
+
+<br />
+
+#### 3.3 Compilation Error ... 🤷‍
 
 _Sadly_, this `mix phx.gen` command
-does not do _exactly_ what we expect.
-
-
-
-The `quotes_controller.ex` still has references
-
-
-So, we need to tidy up the `quotes_controller.ex` before continuing.
-
-To see what I mean, try running the tests:
+does not do _exactly_ what we expect. <br />
+The `--no-context` flag does not _create_ a `context.ex` file,
+but the
+[quotes_controller.ex#L4-L5](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/9a37b21192ae7360c59ae51d72ea9fd470f748e1/lib/app_web/controllers/quotes_controller.ex#L4-L5)
+still has references to `Ctx`
+and expects there to be an "implementation" of a Context.
+That means that if we attempt to run the tests now they will fail:
 
 ```sh
 mix test
@@ -425,48 +439,157 @@ You will see the following compilation error:
 ```sh
 Compiling 18 files (.ex)
 
-== Compilation error in file lib/app/context.ex ==
-** (CompileError) lib/app/context.ex:6: module Ecto.Query is not loaded and could not be found
+== Compilation error in file lib/app_web/controllers/quotes_controller.ex ==
+** (CompileError) lib/app_web/controllers/quotes_controller.ex:13:
+App.Ctx.Quotes.__struct__/1 is undefined, cannot expand struct App.Ctx.Quotes.
+Make sure the struct name is correct. If the struct name exists and is correct
+but it still cannot be found, you likely have cyclic module usage in your code
+    (stdlib 3.11.2) lists.erl:1354: :lists.mapfoldl/3
+    lib/app_web/controllers/quotes_controller.ex:12: (module)
+    (stdlib 3.11.2) erl_eval.erl:680: :erl_eval.do_apply/6
 ```
 
+> We opened an issue to clarify the behaviour:
+https://github.com/phoenixframework/phoenix/issues/3832
+![chris-closes-issue](https://user-images.githubusercontent.com/194400/81950875-678fdc80-95fc-11ea-8eb3-2b7c0d408a6d.png)
+Turns out "_generators are first and foremost learning tools_",
+so if they don't do _exactly_ what we expect,
+we just work _around_ them.
 
+Let's make a couple of quick updates
+to the `quotes_controller.ex`,
+`index.html.eex` and
+`quotes_controller_test.exs` files
+to avoid this compilation error.
+
+
+Open the `test/app_web/controllers/quotes_controller_test.exs`
+and replace the contents with the following:
+
+```elixir
+defmodule AppWeb.QuotesControllerTest do
+  use AppWeb.ConnCase
+
+  describe "index" do
+    test "lists all quotes", %{conn: conn} do
+      conn = get(conn, Routes.quotes_path(conn, :index))
+      assert html_response(conn, 200) =~ "Quotes"
+    end
+  end
+
+end
+```
 
 > Before:
-[`quotes_controller.ex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/538fcd3388d8e9a7e4373600b2a33db686d15bc5/lib/app_web/controllers/quotes_controller.ex)
-> and
+[`quotes_controller_test.exs`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/2d4ca1375385a390d184a8b14f451ca249deef26/test/app_web/controllers/quotes_controller_test.exs) <br />
+> After:
+[`quotes_controller_test.exs`]()
+
+
+Open the `lib/app_web/controllers/quotes_controller.ex`
+and replace the contents with the following:
+
+```elixir
+defmodule AppWeb.QuotesController do
+  use AppWeb, :controller
+
+  # transform map with keys as strings into keys as atoms!
+  # https://stackoverflow.com/questions/31990134
+  def transform_string_keys_to_atoms(map) do
+    for {key, val} <- map, into: %{}, do: {String.to_existing_atom(key), val}
+  end
+
+  def index(conn, _params) do
+    q = Quotes.random() |> transform_string_keys_to_atoms
+    render(conn, "index.html", quote: q)
+  end
+end
+```
+
+> Before:
+[`quotes_controller.ex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/2d4ca1375385a390d184a8b14f451ca249deef26/lib/app_web/controllers/quotes_controller.ex) <br/>
 > After:
 [`quotes_controller.ex`]()
 
 
-With tests passing again, let's do a bit of tidying up before proceeding.
+Finally, open the `lib/app_web/templates/quotes/index.html.eex` file
+and replace the contents with this code:
+
+```html
+<h1>Quotes</h1>
+<p>"<strong><em><%= @quote.text %></em></strong>" ~ <%= @quote.author %></p>
+````
+
+> Before:
+[`quotes/index.html.eex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/2d4ca1375385a390d184a8b14f451ca249deef26/lib/app_web/templates/quotes/index.html.eex) <br/>
+> After:
+[`quotes_controller.ex`]()
+
+Now re-run the tests:
+
+```
+mix test
+```
+
+You should see them pass:
+
+```
+Compiling 3 files (.ex)
+....
+
+Finished in 0.07 seconds
+4 tests, 0 failures
+
+Randomized with seed 115090
+```
+
+
+With tests passing again, let's proceed to writing a test
+for what we expect to see.
+
+
+![quotes-rendered-html-working](https://user-images.githubusercontent.com/194400/81924207-b591e980-95d6-11ea-883b-03aee2e2acea.png)
 
 
 
-> **Note**: There is a use-case for `Context` larger apps
-to organise code but in a small app like the one we are building here,
-it adds unnecessary complexity.
-We attempted to use the `--no-context` flag
+
+
+### 4. Update the `quotes_controller_test.exs`
+
+The tests created by `mix phx.gen.html`
+assume we are building a standard "CRUD" interface; we aren't.
+So we need to **`delete`** those irrelevant tests
+and replace them.
+Open the file `test/app_web/controllers/quotes_controller_test.exs`
+and replace the contents with the following code:
+
+```elixir
+
+```
+
+
+
+
+
+
+#### 3.2 Fix Broken Code
+
+
+
+<br />
+
+> **Note**: There is a use-case for `Context` in larger apps
+to organise code but in a small app like this one,
+it adds _unnecessary complexity_.
+We tried to use the `--no-context` flag
 in our `mix phx.gen.html` command,
-but the behaviour was
-We opened an issue to clarify the behaviour:
-https://github.com/phoenixframework/phoenix/issues/3832
+but the behaviour was not what we expected.
 
 
 
-#### 2.2 Tidy Up: Delete Unused Files (_Optional_)
 
-In our case we are not going to be creating or editing any quotes
-as we already have our "bank" of quotes
-and for simplicity we don't _want_ to run a Database for this example
-so we can focus on rendering the content and not the "_management_".
 
-Let's `delete` the files we don't _need_:
 
-```
-rm lib/app_web/templates/quotes/edit.html.eex
-rm lib/app_web/templates/quotes/form.html.eex
-rm lib/app_web/templates/quotes/new.html.eex
-```
 
 <br />
 
@@ -476,6 +599,10 @@ rm lib/app_web/templates/quotes/new.html.eex
 
 
 <br /> <br />
+
+## Notes & Observations
+
+<br />
 
 ### Q: Is there an _Official_ Way of Doing Content Negotiation?
 
