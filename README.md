@@ -1,3 +1,5 @@
+# NOT READY YET! PLEASE DON'T READ THIS!!!!!!!!!!
+
 <div align="center">
 
 # Phoenix Content Negotiation _Tutorial_
@@ -451,7 +453,7 @@ but it still cannot be found, you likely have cyclic module usage in your code
 
 > We opened an issue to clarify the behaviour:
 https://github.com/phoenixframework/phoenix/issues/3832
-![chris-closes-issue](https://user-images.githubusercontent.com/194400/81950875-678fdc80-95fc-11ea-8eb3-2b7c0d408a6d.png)
+![chris-closes-issue](https://user-images.githubusercontent.com/194400/81950875-678fdc80-95fc-11ea-8eb3-2b7c0d408a6d.png) <br />
 Turns out "_generators are first and foremost learning tools_",
 so if they don't do _exactly_ what we expect,
 we just work _around_ them.
