@@ -455,18 +455,21 @@ but it still cannot be found, you likely have cyclic module usage in your code
 > We opened an issue to clarify the behaviour:
 https://github.com/phoenixframework/phoenix/issues/3832
 ![chris-closes-issue](https://user-images.githubusercontent.com/194400/81950875-678fdc80-95fc-11ea-8eb3-2b7c0d408a6d.png) <br />
-Turns out "_generators are first and foremost learning tools_",
-so if they don't do _exactly_ what we expect,
-we just work _around_ them.
+Turns out that "_generators are first and foremost learning tools_",
+fair enough. <br />
+If the generator doesn't do _exactly_ what we expect,
+we just work _around_ it.
 
-Let's make a couple of quick updates
-to the `quotes_controller.ex`,
-`index.html.eex` and
-`quotes_controller_test.exs` files
+<br />
+
+Let's make a few of quick updates
+to the `quotes_controller_test.exs`,
+`quotes_controller.ex` and
+`index.html.eex` files
 to avoid this compilation error.
 
 
-Open the `test/app_web/controllers/quotes_controller_test.exs`
+Open the `test/app_web/controllers/quotes_controller_test.exs` file
 and replace the contents with the following:
 
 ```elixir
@@ -486,7 +489,7 @@ end
 > Before:
 [`quotes_controller_test.exs`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/2d4ca1375385a390d184a8b14f451ca249deef26/test/app_web/controllers/quotes_controller_test.exs) <br />
 > After:
-[`quotes_controller_test.exs`]()
+[`quotes_controller_test.exs`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/77c3310a2614fbf7db1570a8eb501ee87cc9baa0/test/app_web/controllers/quotes_controller_test.exs)
 
 
 Open the `lib/app_web/controllers/quotes_controller.ex`
@@ -512,7 +515,7 @@ end
 > Before:
 [`quotes_controller.ex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/2d4ca1375385a390d184a8b14f451ca249deef26/lib/app_web/controllers/quotes_controller.ex) <br/>
 > After:
-[`quotes_controller.ex`]()
+[`quotes_controller.ex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/77c3310a2614fbf7db1570a8eb501ee87cc9baa0/lib/app_web/controllers/quotes_controller.ex)
 
 
 Finally, open the `lib/app_web/templates/quotes/index.html.eex` file
@@ -526,7 +529,7 @@ and replace the contents with this code:
 > Before:
 [`quotes/index.html.eex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/2d4ca1375385a390d184a8b14f451ca249deef26/lib/app_web/templates/quotes/index.html.eex) <br/>
 > After:
-[`quotes_controller.ex`]()
+[`quotes/index.html.eex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/77c3310a2614fbf7db1570a8eb501ee87cc9baa0/lib/app_web/templates/quotes/index.html.eex)
 
 Now re-run the tests:
 
