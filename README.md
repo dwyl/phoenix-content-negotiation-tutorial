@@ -469,8 +469,12 @@ to the `quotes_controller_test.exs`,
 to avoid this compilation error.
 
 
-Open the `test/app_web/controllers/quotes_controller_test.exs` file
-and replace the contents with the following:
+The tests created by `mix phx.gen.html`
+assume we are building a standard "CRUD" interface; we aren't.
+So we need to **`delete`** those irrelevant tests
+and replace them.
+Open the file `test/app_web/controllers/quotes_controller_test.exs`
+and replace the contents with the following code:
 
 ```elixir
 defmodule AppWeb.QuotesControllerTest do
@@ -565,26 +569,166 @@ You should see a random quotation:
 ![quotes-rendered-html-working](https://user-images.githubusercontent.com/194400/81924207-b591e980-95d6-11ea-883b-03aee2e2acea.png)
 
 With tests passing again and a random quote rendering,
-let's proceed to the content negotiation part!
+let's attempt to make a JSON request to the `HTML` endpoint
+(_and see it fail_).
+
+
+<br />
+
+#### 3.4 Content Negotiation _Fails_
+
+
+At this stage if we run the server (`mix phx.server`)
+and attempt to make a request to the `/quotes` endpoint
+(_in a different terminal window_)
+with a JSON `Accepts` header:
+
+```
+curl -i -H "Accept: application/json" http://localhost:4000/quotes
+```
+
+We will see the following error: <br />
+
+```
+HTTP/1.1 406 Not Acceptable
+cache-control: max-age=0, private, must-revalidate
+content-length: 1915
+date: Fri, 15 May 2020 07:44:44 GMT
+server: Cowboy
+x-request-id: Fg8j6sIqqtAKLiIAAAGB
+
+# Phoenix.NotAcceptableError at GET /quotes
+
+Exception:
+
+    ** (Phoenix.NotAcceptableError) no supported media type in accept header.
+
+    Expected one of ["html"] but got the following formats:
+
+      * "application/json" with extensions: ["json"]
+
+    To accept custom formats, register them under the :mime library
+    in your config/config.exs file:
+
+        config :mime, :types, %{
+          "application/xml" => ["xml"]
+        }
+
+    And then run `mix deps.clean --build mime` to force it to be recompiled.
+
+        (phoenix 1.5.1) lib/phoenix/controller.ex:1313: Phoenix.Controller.refuse/3
+        (app 0.1.0) AppWeb.Router.browser/2
+        (app 0.1.0) lib/app_web/router.ex:1: AppWeb.Router.__pipe_through0__/1
+        (phoenix 1.5.1) lib/phoenix/router.ex:347: Phoenix.Router.__call__/2
+        (app 0.1.0) lib/app_web/endpoint.ex:1: AppWeb.Endpoint.plug_builder_call/2
+        (app 0.1.0) lib/plug/debugger.ex:132: AppWeb.Endpoint."call (overridable 3)"/2
+        (app 0.1.0) lib/app_web/endpoint.ex:1: AppWeb.Endpoint.call/2
+        (phoenix 1.5.1) lib/phoenix/endpoint/cowboy2_handler.ex:64: Phoenix.Endpoint.Cowboy2Handler.init/4
+
+
+## Connection details
+
+### Params
+
+    %{}
+
+### Request info
+
+  * URI: http://localhost:4000/quotes
+  * Query string:
+
+### Headers
+
+  * accept: application/json
+  * host: localhost:4000
+  * user-agent: curl/7.64.1
+
+### Session
+
+    %{}
+```
+
+
+And in the terminal running the `phx.server`,
+you will see: <br />
+
+```
+[debug] ** (Phoenix.NotAcceptableError) no supported media type in accept header.
+
+Expected one of ["html"] but got the following formats:
+
+  * "application/json" with extensions: ["json"]
+
+To accept custom formats, register them under the :mime library
+in your config/config.exs file:
+
+    config :mime, :types, %{
+      "application/xml" => ["xml"]
+    }
+
+And then run `mix deps.clean --build mime` to force it to be recompiled.
+
+    (phoenix 1.5.1) lib/phoenix/controller.ex:1313: Phoenix.Controller.refuse/3
+    (app 0.1.0) AppWeb.Router.browser/2
+    (app 0.1.0) lib/app_web/router.ex:1: AppWeb.Router.__pipe_through0__/1
+    (phoenix 1.5.1) lib/phoenix/router.ex:347: Phoenix.Router.__call__/2
+    (app 0.1.0) lib/app_web/endpoint.ex:1: AppWeb.Endpoint.plug_builder_call/2
+    (app 0.1.0) lib/plug/debugger.ex:132: AppWeb.Endpoint."call (overridable 3)"/2
+    (app 0.1.0) lib/app_web/endpoint.ex:1: AppWeb.Endpoint.call/2
+    (phoenix 1.5.1) lib/phoenix/endpoint/cowboy2_handler.ex:64: Phoenix.Endpoint.Cowboy2Handler.init/4
+```
+
+
+
+This is understandable given that we don't
+have any route that accepts JSON requests.
+Let's get on with the content negotiation part!
 
 
 <br />
 
 
-### 4. Update the `quotes_controller_test.exs`
+### 4. Create a Content Negotiation Rule in `router.ex`
 
-The tests created by `mix phx.gen.html`
-assume we are building a standard "CRUD" interface; we aren't.
-So we need to **`delete`** those irrelevant tests
-and replace them.
-Open the file `test/app_web/controllers/quotes_controller_test.exs`
-and replace the contents with the following code:
+By default the Phoenix router separates the `:browser` (which accptes `HTML`)
+from the
+
 
 ```elixir
+defmodule AppWeb.Router do
+  use AppWeb, :router
 
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
+  pipeline :api do
+    plug :accepts, ["json"]
+  end
+
+  scope "/", AppWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
+    resources "/quotes", QuotesController
+  end
+
+  # Other scopes may use custom stacks.
+  # scope "/api", AppWeb do
+  #   pipe_through :api
+  # end
+end
 ```
 
-
+By default the `/api` scope is commented out.
+We aren't going to enable it,
+rather as per our goal (above)
+we want to have the API and UI
+handled by the _same_ router pipeline.
 
 
 
