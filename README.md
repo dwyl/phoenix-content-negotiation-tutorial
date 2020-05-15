@@ -480,10 +480,10 @@ and replace the contents with the following code:
 defmodule AppWeb.QuotesControllerTest do
   use AppWeb.ConnCase
 
-  describe "index" do
-    test "lists all quotes", %{conn: conn} do
+  describe "/quots" do
+    test "shows a random quote", %{conn: conn} do
       conn = get(conn, Routes.quotes_path(conn, :index))
-      assert html_response(conn, 200) =~ "Quotes"
+      assert html_response(conn, 200) =~ "Quote"
     end
   end
 
@@ -652,7 +652,7 @@ Exception:
 And in the terminal running the `phx.server`,
 you will see: <br />
 
-```
+```md
 [debug] ** (Phoenix.NotAcceptableError) no supported media type in accept header.
 
 Expected one of ["html"] but got the following formats:
@@ -690,8 +690,9 @@ Let's get on with the content negotiation part!
 
 ### 4. Create a Content Negotiation Rule in `router.ex`
 
-By default the Phoenix router separates the `:browser` (which accptes `HTML`)
-from the
+By default the Phoenix router separates
+the `:browser` pipeline (which accepts `"html"`)
+from the `:api` (which accepts `"json"`):
 
 
 ```elixir
@@ -730,8 +731,50 @@ rather as per our goal (above)
 we want to have the API and UI
 handled by the _same_ router pipeline.
 
+Let's _replace_ the code in the `router.ex` with the following:
 
+```elixir
+defmodule AppWeb.Router do
+  use AppWeb, :router
 
+  pipeline :default do
+    plug :negotiate
+  end
+
+  defp negotiate(conn, []) do
+    {"accept", accept} = List.keyfind(conn.req_headers, "accept", 0)
+
+    if accept =~ "json" do
+      conn
+    else
+      conn
+      |> fetch_session([])
+      |> fetch_flash([])
+      |> protect_from_forgery([])
+      |> put_secure_browser_headers([])
+    end
+  end
+
+  scope "/", AppWeb do
+    pipe_through :default
+
+    get "/", PageController, :index
+    resources "/quotes", QuotesController
+  end
+end
+```
+
+In this code we are replacing the `:browser` pipeline
+with a `:default` pipeline that handles all types of content.
+The `:default` pipeline invokes `:negotiate`
+which is defined immediately below.
+
+In `negotiate/2` we simply check the `accept` header
+in `conn.req_headers`
+If the `accept` header matches the string `"json"`,
+we don't need to do any further setup,
+otherwise we assume the request wants `HTML`
+invoke the appropriate plugs that were in the `:browser` pipeline.
 
 
 

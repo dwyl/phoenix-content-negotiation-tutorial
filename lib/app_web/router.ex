@@ -1,29 +1,31 @@
 defmodule AppWeb.Router do
   use AppWeb, :router
 
-  pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+  pipeline :default do
+    plug :negotiate
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
+  defp negotiate(conn, []) do
+    {"accept", accept} = List.keyfind(conn.req_headers, "accept", 0)
+    IO.inspect(accept, label: "accept")
+    if accept =~ "json" do
+      conn
+    else
+      conn
+      |> fetch_session([])
+      |> fetch_flash([])
+      |> protect_from_forgery([])
+      |> put_secure_browser_headers([])
+    end
   end
 
   scope "/", AppWeb do
-    pipe_through :browser
+    pipe_through :default
 
     get "/", PageController, :index
     resources "/quotes", QuotesController
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", AppWeb do
-  #   pipe_through :api
-  # end
 
   # Enables LiveDashboard only for development
   #
@@ -36,7 +38,7 @@ defmodule AppWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
+      pipe_through :default
       live_dashboard "/dashboard", metrics: AppWeb.Telemetry
     end
   end

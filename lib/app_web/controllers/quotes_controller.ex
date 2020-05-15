@@ -9,6 +9,12 @@ defmodule AppWeb.QuotesController do
 
   def index(conn, _params) do
     q = Quotes.random() |> transform_string_keys_to_atoms
-    render(conn, "index.html", quote: q)
+    {"accept", accept} = List.keyfind(conn.req_headers, "accept", 0)
+
+    if accept =~ "json" do
+      json(conn, q)
+    else
+      render(conn, "index.html", quote: q)
+    end
   end
 end
