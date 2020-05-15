@@ -550,14 +550,25 @@ Randomized with seed 115090
 ```
 
 
-With tests passing again, let's proceed to writing a test
-for what we expect to see.
+
+Let's do a quick visual check.
+Run the Phoenix server:
+
+```sh
+mix phx.server
+```
+
+Then visit [`localhost:4000`](http://localhost:4000) in your web browser. <br />
+You should see a random quotation:
 
 
 ![quotes-rendered-html-working](https://user-images.githubusercontent.com/194400/81924207-b591e980-95d6-11ea-883b-03aee2e2acea.png)
 
+With tests passing again and a random quote rendering,
+let's proceed to the content negotiation part!
 
 
+<br />
 
 
 ### 4. Update the `quotes_controller_test.exs`
@@ -578,28 +589,13 @@ and replace the contents with the following code:
 
 
 
-#### 3.2 Fix Broken Code
-
-
-
-<br />
-
-> **Note**: There is a use-case for `Context` in larger apps
-to organise code but in a small app like this one,
-it adds _unnecessary complexity_.
-We tried to use the `--no-context` flag
-in our `mix phx.gen.html` command,
-but the behaviour was not what we expected.
-
-
-
 
 
 
 
 <br />
 
-### 4.
+### 5.
 
 
 
