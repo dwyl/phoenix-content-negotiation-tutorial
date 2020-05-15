@@ -575,7 +575,7 @@ let's attempt to make a JSON request to the `HTML` endpoint
 
 <br />
 
-#### 3.4 Content Negotiation _Fails_
+#### 3.4 Content Negotiation _Fails_
 
 
 At this stage if we run the server (`mix phx.server`)
@@ -589,7 +589,7 @@ curl -i -H "Accept: application/json" http://localhost:4000/quotes
 
 We will see the following error: <br />
 
-```
+```md
 HTTP/1.1 406 Not Acceptable
 cache-control: max-age=0, private, must-revalidate
 content-length: 1915
