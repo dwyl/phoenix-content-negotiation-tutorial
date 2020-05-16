@@ -1050,8 +1050,23 @@ end
 
 Now re-run the tests and they will pass:
 
+```
+mix test
+```
 
+Expect to see:
 
+```
+Compiling 3 files (.ex)
+....
+
+Finished in 0.07 seconds
+4 tests, 0 failures
+
+Randomized with seed 485
+```
+
+At this point we have functioning content negotiation in our little app.
 
 <br /> <br />
 
