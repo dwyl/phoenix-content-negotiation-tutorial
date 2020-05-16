@@ -256,7 +256,7 @@ again for simplicity.
 If you want to _extend_ this tutorial
 to allow for creating `new` quotes both via UI and API,
 please open an
-[issue](https://github.com/dwyl/phoenix-content-negotiation-tutorial/issues)
+[issue](https://github.com/dwyl/phoenix-content-negotiation-tutorial/issues).
 We think it could be a _good_ idea to add `POST` endpoints as a "Bonus Level",
 but we don't want to complicate things for the _first_ part of the tutorial.
 
@@ -342,7 +342,7 @@ iex> Quotes.random()
 }
 ```
 
-Great! so we know our quotes library is loaded into our Phoenix App.
+Great! So we know our quotes library is loaded into our Phoenix App. <br />
 Quit `iex` and let's get back to building the App.
 
 
@@ -806,7 +806,7 @@ is setup to accept _any_ content type,
 we need to _handle_ the request for JSON in our controller.
 
 Open the `lib/app_web/controllers/quotes_controller.ex` file
-and replace the `index/2` function with the following:
+and update the `index/2` function with the following:
 
 ```elixir
 def index(conn, _params) do
@@ -831,7 +831,7 @@ It uses the configured
 under the `:phoenix` application
 for `:json` to pick up the encoder module.
 
-
+<br />
 
 
 #### 5.1 Fix Failing Tests!
@@ -904,11 +904,15 @@ creator of `Phoenix` have given input in the issue.
 So we have a fairly good notion that this is
 the _acceptable_ way of doing content negotiation in a Phoenix App.
 
-José outlines the Plug approach:
+José outlines the Plug approach
+(_this is what we did in **step 4** above_):
 ![josevalim-plug-router](https://user-images.githubusercontent.com/194400/81637506-7add5500-940e-11ea-8a7f-200268d34946.png)
 
 Chris advises to use `Phoenix.Controller.get_format` and pattern matching:
 ![chris-pattern-matching](https://user-images.githubusercontent.com/194400/81637373-0bfffc00-940e-11ea-8ccd-e42b048bef42.png)
+
+This is relevant for the general use case but is not to our _specific_ one.
+
 
 Chris also created a Gist:
 https://gist.github.com/chrismccord/31340f08d62de1457454 <br />
@@ -917,17 +921,19 @@ We have used this approach into our tutorial.
 
 <br />
 
-> **Note**: _this_ is a textbook example of _why_
-we open issues to ask questions.
-This thread shows the initial uncertainty of the original poster.
+> **Note**: _this_ issue
+[phoenix/issues/1054](https://github.com/phoenixframework/phoenix/issues/1054)
+is a textbook example of _why_
+we open issues to ask questions. <br />
+The thread shows the initial uncertainty of the original poster. <br />
 There is a _discussion_ for why content negotiation is necessary
-and suggested approaches for doing it.
+and suggested approaches for doing it. <br />
 Finally there is a comment from a person
 who discovered the issue _years_ later
-and found the thread useful.
-3 years later we are using it as the basis for our work!
-And in the future others will stumble upon it
+and found the thread useful. <br />
+3 years later we are using it as the basis for our solution! <br />
+In the future others will stumble upon it
 and be grateful that it exists. <br />
 Open issues with questions!
 It's the _right_ thing to do to learn and discuss all topics. <br />
-Both people in your team and complete strangers benefit!
+Both people in your team and complete strangers will benefit!
