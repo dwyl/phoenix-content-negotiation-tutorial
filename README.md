@@ -348,10 +348,16 @@ Quit `iex` and let's get back to building the App.
 ### 3. Generate the `Quotes` Controller, View, Templates and Tests
 
 ```
-mix phx.gen.html Context Quotes quotes author:string text:string tags:string source:string --no-schema --no-context
+mix phx.gen.html Ctx Quotes quotes author:string text:string tags:string source:string --no-schema --no-context
 ```
 
-You should see the following output:
+> **Note**: `Ctx` is just an abbreviation for `Context`.
+> We will _remove_ all references to `Ctx` in step 3.3 (below)
+> because we _really_ don't need a
+[`Context`](https://hexdocs.pm/phoenix/contexts.html)
+> abstraction in a _simple_ example like this. ✂️
+
+In your terminal, you should see the following output:
 
 ```
 * creating lib/app_web/controllers/quotes_controller.ex
@@ -681,7 +687,7 @@ And then run `mix deps.clean --build mime` to force it to be recompiled.
 
 
 This is understandable given that we don't
-have any route that accepts JSON requests.
+have any pipeline/route that accepts JSON requests. <br />
 Let's get on with the content negotiation part!
 
 
@@ -726,7 +732,7 @@ end
 ```
 
 By default the `/api` scope is commented out.
-We aren't going to enable it,
+We are _not_ going to enable it,
 rather as per our goal (above)
 we want to have the API and UI
 handled by the _same_ router pipeline.
@@ -776,16 +782,51 @@ we don't need to do any further setup,
 otherwise we assume the request wants `HTML`
 invoke the appropriate plugs that were in the `:browser` pipeline.
 
-Now that our `router.ex` is setup to accept
 
+At the end of this step, your router file should look like this:
+[`router.ex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/f4edaac782bb1bc5d8f55f4b8677212483b1da0a/lib/app_web/router.ex)
 
 
 <br />
 
-### 5.
+### 5. Handle `JSON` requests in `QuotesController`
+
+Now that our `router.ex` pipeline
+is setup to accept _any_ content type,
+we need to _handle_ the request for JSON in our controller.
+
+Open the `lib/app_web/controllers/quotes_controller.ex` file
+and replace the `index/2` function with the following:
+
+```elixir
+def index(conn, _params) do
+  q = Quotes.random() |> transform_string_keys_to_atoms
+  {"accept", accept} = List.keyfind(conn.req_headers, "accept", 0)
+
+  if accept =~ "json" do
+    json(conn, q)
+  else
+    render(conn, "index.html", quote: q)
+  end
+end
+```
+
+Here we use the `Phoenix.Controller`
+[json/2](https://hexdocs.pm/phoenix/Phoenix.Controller.html#json/2)
+to sends a JSON response.
+
+It uses the configured
+[`:json_library`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/f4edaac782bb1bc5d8f55f4b8677212483b1da0a/config/config.exs#L24)
+(`Jason`)
+under the `:phoenix` application
+for `:json` to pick up the encoder module.
 
 
 
+
+#### 5.1 Fix Failing Tests!
+
+Open the `test/app_web/controllers/quotes_controller_test.exs` file
 
 <br /> <br />
 
