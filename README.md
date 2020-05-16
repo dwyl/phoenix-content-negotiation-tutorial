@@ -1,6 +1,3 @@
-# NOT READY YET! PLEASE DON'T READ THIS!!!!!!!!!!
-<br/>
-
 <div align="center">
 
 # Phoenix Content Negotiation _Tutorial_
@@ -126,24 +123,24 @@ Run the following command:
 
 <br />
 
-## Who?
+## Who? 👤
 
 
 This example aimed at _anyone_ building a Phoenix App
 who wants to _automatically_ have a REST API. <br />
-For us [`@dwyl`]()
+For us [`@dwyl`](https://github.com/dwyl/app/issues/273)
 who are building our API and App Web UI simultaneously,
 it serves as a gentle intro to the topic.
 
 If you get stuck or have _any_ questions,
 please
-[ask](https://github.com/nelsonic/phoenix-content-negotiation-example/issues)
+[_ask_](https://github.com/dwyl/phoenix-content-negotiation-example/issues).
 
 <br />
 
-## How?
+## How? 💻
 
-### Prerequisites?
+### Prerequisites? ✅
 
 This example assumes you have `Elixir` and `Phoenix`
 installed on your computer
@@ -163,7 +160,7 @@ Once you are comfortable with Phoenix, proceed with this example!
 
 <br />
 
-### 0. Run the _Finished_ App
+### 0. Run the _Finished_ App ⬇️
 
 We encourage everyone to
 ["_Begin With the End in Mind_"](https://en.wikipedia.org/wiki/The_7_Habits_of_Highly_Effective_People#2_-_Begin_with_the_end_in_mind)
@@ -176,7 +173,7 @@ and it's a good reference if you get stuck.
 If for any reason it _doesn't_ work, you can
 [**open an issue**](https://github.com/dwyl/phoenix-content-negotiation-tutorial/issues)
 
-#### Clone the Repository
+#### Clone the Repository 📋
 
 In your terminal, clone the repo from GitHub:
 
@@ -184,7 +181,7 @@ In your terminal, clone the repo from GitHub:
 git clone git@github.com:dwyl/phoenix-content-negotiation-tutorial.git
 ```
 
-#### Install The Dependencies
+#### Install The Dependencies 📦
 
 Change into the newly created directory and run the `mix` command:
 
@@ -194,7 +191,7 @@ mix deps.get
 ```
 
 
-#### Run the App
+#### Run the App 🚀
 
 Run the Phoenix app with the following command:
 
@@ -210,19 +207,23 @@ You should see output similar to the following in your terminal:
 ```
 
 
-#### Test it in your Browser
+#### Test it in your Browser 🖥️
+
+# TODO: update with screenshot of _finished_ app
 
 
 
-#### Test it in your Terminal
 
+#### Test it in your Terminal ⬛
+
+# Todo: update with screenshot of terminal response
 
 
 
 
 
 Now that you know the end state of the tutorial _works_,
-change out of the directory `cd ..`
+change out of the directory (`cd ..`)
 and let's re-create it from scratch!
 
 <br />
@@ -235,6 +236,7 @@ In your terminal, run the following command to create a new app:
 ```
 mix phx.new app --no-ecto --no-webpack
 ```
+
 When asked if you want to `Fetch and install dependencies? [Yn]`
 Type <kbd>Y</kbd> followed by the <kbd>Enter</kbd> key.
 
@@ -300,6 +302,7 @@ Finished in 0.02 seconds
 
 <br />
 
+
 ### 2. Add Quotes!
 
 In order to display quotes in the UI/API we need a source of quotes.
@@ -347,7 +350,6 @@ Quit `iex` and let's get back to building the App.
 
 
 <br />
-
 
 
 ### 3. Generate the `Quotes` Controller, View, Templates and Tests
@@ -691,7 +693,7 @@ And then run `mix deps.clean --build mime` to force it to be recompiled.
 
 
 
-This is understandable given that we don't
+This is understandable given that the app doesn't
 have any pipeline/route that accepts JSON requests. <br />
 Let's get on with the content negotiation part!
 
@@ -819,6 +821,8 @@ def index(conn, _params) do
     render(conn, "index.html", quote: q)
   end
 end
+
+
 ```
 
 Here we use the `Phoenix.Controller`
@@ -888,20 +892,40 @@ Confirm that it still works in the browser:
 ![image](https://user-images.githubusercontent.com/194400/82122061-1fea8b80-9789-11ea-922f-3d671ac35a89.png)
 
 
-
-
+<br />
 
 #### 5.1 Fix Failing Tests!
 
-Open the `test/app_web/controllers/quotes_controller_test.exs` file
+While the content negotiation works
+for returning `HTML` and `JSON`,
+the changes we have made will break the tests.
 
-<br /> <br />
+If you try to run the tests now you will see them fail:
 
-## Notes & Observations
+```
+mix test
+```
+
+```
+1) test /quotes shows a random quote (AppWeb.QuotesControllerTest)
+   test/app_web/controllers/quotes_controller_test.exs:5
+   ** (MatchError) no match of right hand side value: nil
+   code: |> get(Routes.quotes_path(conn, :index))
+   stacktrace:
+     (app 0.1.0) lib/app_web/router.ex:9: AppWeb.Router.negotiate/2
+     (app 0.1.0) AppWeb.Router.any/2
+     (app 0.1.0) lib/app_web/router.ex:1: AppWeb.Router.__pipe_through0__/1
+```
+
+This fails because we are attempting to get the `"accept"` header
+in the `router.ex` `negotiate/2` function
+but there are no headers defined in our test!
 
 
-In Plug (and thus Phoenix) tests, no headers are set by default. <br />
-This is the output of inspecting the `conn` (`IO.inspect(conn)`):
+In Plug (and thus Phoenix) tests,
+no headers are set by default. <br />
+This is the output of inspecting the `conn`
+(`IO.inspect(conn)`):
 
 ```elixir
 %Plug.Conn{
@@ -937,20 +961,101 @@ This is the output of inspecting the `conn` (`IO.inspect(conn)`):
 ```
 
 The important line is:
+
 ```elixir
 req_headers: [],
 ```
 
-That means we need to _explicitly_ set the `accept` header
-in our tests to avoid the router/controller _exploding_.
-Obviously adding `put_req_header` lines to each test is undesirable,
-we will improve on this shortly!
+`req_headers` is an _empty_ List.
+
+There are two ways of fixing this failing test:
+
+a. We include the right `"accept"` header in each test. <br />
+b. We set a `default` value if there is no `"accept"` header defined.
+
+If we go with the first option,
+we will need to add an accept header in the test:
+
+```elixir
+test "shows a random quote", %{conn: conn} do
+  conn =
+    conn
+    |> put_req_header("accept", "text/html")
+    |> get(Routes.quotes_path(conn, :index))
+
+  assert html_response(conn, 200) =~ "Quote"
+end
+```
+
+This is fine in an individual case,
+but it will get old if we are using content negotiation
+in a more sophisticated app with dozens of routes.
+
+We _prefer_ to create a helper function
+that sets a default value if no `accept` header is set.
+Open the `lib/app_web/controllers/quotes_controller.ex` file
+and add the following helper function:
+
+```elixir
+@doc """
+`get_accept_header/2` gets the "accept" header from req_headers.
+Defaults to "text/html" if no header is set.
+"""
+def get_accept_header(conn) do
+  case List.keyfind(conn.req_headers, "accept", 0) do
+    {"accept", accept} ->
+      accept
+
+    nil ->
+      "tex/html"
+  end
+end
+```
+
+We can now _use_ this function
+in both our `AppWeb.QuotesController.index/2`
+and `AppWeb.Router.negotiate/2` functions:
+
+
+With the `lib/app_web/controllers/quotes_controller.ex` file still open,
+update the `index/2` function to:
+
+```elixir
+def index(conn, _params) do
+  q = Quotes.random() |> transform_string_keys_to_atoms
+
+  if get_accept_header(conn) =~ "json" do
+    json(conn, q)
+  else
+    render(conn, "index.html", quote: q)
+  end
+end
+```
+
+And in `router.ex` update the `negotiate/2` function to:
+
+```elixir
+defp negotiate(conn, []) do
+  if AppWeb.QuotesController.get_accept_header(conn) =~ "json" do
+    conn
+  else
+    conn
+    |> fetch_session([])
+    |> fetch_flash([])
+    |> protect_from_forgery([])
+    |> put_secure_browser_headers([])
+  end
+end
+```
+
+Now re-run the tests and they will pass:
 
 
 
 
+<br /> <br />
 
-
+## Notes & Observations
 
 <br />
 

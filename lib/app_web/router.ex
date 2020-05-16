@@ -6,9 +6,7 @@ defmodule AppWeb.Router do
   end
 
   defp negotiate(conn, []) do
-    {"accept", accept} = List.keyfind(conn.req_headers, "accept", 0)
-    IO.inspect(accept, label: "accept")
-    if accept =~ "json" do
+    if AppWeb.QuotesController.get_accept_header(conn) =~ "json" do
       conn
     else
       conn
