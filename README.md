@@ -5,16 +5,17 @@
 
 # Phoenix Content Negotiation _Tutorial_
 
-A tutorial showing how to return different content (format)
-for the same route based on `Accepts` header.
+A tutorial showing how to return _different content_ (format)
+for the _same route_ based on `Accepts` header.
 
 </div>
 
 ## Why? 🤷
 
-The purpose of this tutorial is to demonstrate how simple
-it is to turn _any_ Phoenix Web App into a REST API
-using the _same_ URI.
+This tutorial shows how simple it is
+to turn _any_ Phoenix Web App into a REST API
+using the _same_ routes as your Web UI.
+
 
 
 
@@ -22,7 +23,8 @@ using the _same_ URI.
 
 Our goal is:
 to run the _same_ Phoenix Application for both our Web UI and REST API
-and _transparently_ return the appropriate content (HTML or JSON)
+and have the _same_ route handler (Controller)
+_transparently_ return the appropriate content (HTML or JSON)
 based on the `Accept` header.
 
 So a request made in a **Web Browser** will display HTML
@@ -33,7 +35,8 @@ will return JSON for the _same_ URL.
 That way we ensure that _all_ routes in our App
 have the equivalent JSON response
 so _every_ action can be performed _programatically_.
-Which means anyone can build their _own_ Frontend UI/UX.
+Which means _anyone_ can build their _own_ Frontend UI/UX
+for the @dwyl App.
 We believe this is _crucial_ to the success of our product.
 We think the API _is_ our Product and the Web UI
 is just _one_ representation of what is _possible_.
@@ -317,7 +320,9 @@ Then run:
 mix deps.get
 ```
 
-That will download the `quotes` package which contains the `quote.json` file
+That will download the `quotes` package which contains the
+[`quotes.json`](https://github.com/dwyl/quotes/blob/master/quotes.json)
+file
 and Elixir functions to interact with it.
 
 #### 2.1 Try It in `iex`!
@@ -694,7 +699,7 @@ Let's get on with the content negotiation part!
 <br />
 
 
-### 4. Create a Content Negotiation Rule in `router.ex`
+### 4. Create a Content Negotiation Pipeline in `router.ex`
 
 By default the Phoenix router separates
 the `:browser` pipeline (which accepts `"html"`)
@@ -771,16 +776,21 @@ end
 ```
 
 In this code we are replacing the `:browser` pipeline
-with a `:default` pipeline that handles all types of content.
-The `:default` pipeline invokes `:negotiate`
+with the `:any` pipeline that handles all types of content.
+The `:any` pipeline invokes `:negotiate`
 which is defined immediately below.
 
 In `negotiate/2` we simply check the `accept` header
-in `conn.req_headers`
+in `conn.req_headers`.
 If the `accept` header matches the string `"json"`,
 we don't need to do any further setup,
-otherwise we assume the request wants `HTML`
+otherwise we assume the request expects an `HTML` response
 invoke the appropriate plugs that were in the `:browser` pipeline.
+
+> **Note**: we _know_ this is not "production" code.
+This is just an ["MVP"](https://en.wikipedia.org/wiki/Minimum_viable_product)
+for how to do content negotiation.
+We will improve it below!
 
 
 At the end of this step, your router file should look like this:
@@ -833,8 +843,8 @@ Open the `test/app_web/controllers/quotes_controller_test.exs` file
 ## Notes & Observations
 
 
-In Plug (and thus Phoenix) tests, no headers are set
-so this is the output of inspecting the `conn`:
+In Plug (and thus Phoenix) tests, no headers are set by default. <br />
+This is the output of inspecting the `conn` (`IO.inspect(conn)`):
 
 ```elixir
 %Plug.Conn{
@@ -868,6 +878,12 @@ so this is the output of inspecting the `conn`:
   status: nil
 }
 ```
+
+The important line is:
+```elixir
+req_headers: [],
+```
+
 That means we need to _explicitly_ set the `accept` header
 in our tests to avoid the router _exploding_.
 
