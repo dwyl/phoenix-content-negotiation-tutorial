@@ -6,7 +6,5 @@ defmodule AppWeb.QuotesControllerTest do
       conn = get(conn, Routes.quotes_path(conn, :index))
       assert html_response(conn, 200) =~ "Quote"
     end
-
   end
-
 end

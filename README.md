@@ -1032,6 +1032,10 @@ def index(conn, _params) do
 end
 ```
 
+> Your `quotes_controller.ex` file should look like this:
+[`quotes_controller.ex#L10-L32`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/a6fb74bf65136bd6840ee3f50af91fd15952a078/lib/app_web/controllers/quotes_controller.ex#L10-L32)
+
+
 And in `router.ex` update the `negotiate/2` function to:
 
 ```elixir
@@ -1047,6 +1051,11 @@ defp negotiate(conn, []) do
   end
 end
 ```
+
+> Your `router.ex` file should look like this:
+[`router.ex#L8-L18`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/a6fb74bf65136bd6840ee3f50af91fd15952a078/lib/app_web/router.ex#L8-L18)
+
+
 
 Now re-run the tests and they will pass:
 
@@ -1066,7 +1075,11 @@ Finished in 0.07 seconds
 Randomized with seed 485
 ```
 
-At this point we have functioning content negotiation in our little app.
+At this point we have functioning content negotiation in our little app. <br />
+Our
+
+
+
 
 <br /> <br />
 
