@@ -833,6 +833,63 @@ for `:json` to pick up the encoder module.
 
 <br />
 
+At this point our rudimentary content negotiation is _working_.
+Try it: run the Phoenix server:
+
+
+```sh
+mix phx.server
+```
+
+In a different terminal window/tab, run the
+[`cURL`](https://en.wikipedia.org/wiki/CURL)
+command:
+
+```sh
+curl -i -H "Accept: application/json" http://localhost:4000/quotes
+```
+
+You should see output similar to this:
+
+```
+HTTP/1.1 200 OK
+cache-control: max-age=0, private, must-revalidate
+content-length: 86
+content-type: application/json; charset=utf-8
+date: Sat, 16 May 2020 14:25:51 GMT
+server: Cowboy
+x-request-id: Fg-IYvb_4_U9xvYAAASh
+
+{"author":"Johann Wolfgang von Goethe","text":"Knowing is not enough; we must apply!"}
+```
+
+If you prefer to _just_ have the JSON response, omit the `-i` flag:
+
+```sh
+curl -H "Accept: application/json" http://localhost:4000/quotes
+```
+
+Now you will just see the quote `text` and `author`
+(_and where available, `tags` and `source`_):
+
+```json
+{
+  "author":"Ernest Hemingway",
+  "source":"https://www.goodreads.com/quotes/353013",
+  "tags":"listen, learn, learning",
+  "text":"I like to listen. I have learned a great deal from listening carefully. Most people never listen."
+}
+```
+
+
+Confirm that it still works in the browser:
+[http://localhost:4000/quotes](http://localhost:4000/quotes)
+
+![image](https://user-images.githubusercontent.com/194400/82122061-1fea8b80-9789-11ea-922f-3d671ac35a89.png)
+
+
+
+
 
 #### 5.1 Fix Failing Tests!
 
@@ -885,7 +942,14 @@ req_headers: [],
 ```
 
 That means we need to _explicitly_ set the `accept` header
-in our tests to avoid the router _exploding_.
+in our tests to avoid the router/controller _exploding_.
+Obviously adding `put_req_header` lines to each test is undesirable,
+we will improve on this shortly!
+
+
+
+
+
 
 
 <br />

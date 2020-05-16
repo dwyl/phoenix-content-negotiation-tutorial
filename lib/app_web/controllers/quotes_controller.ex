@@ -8,6 +8,7 @@ defmodule AppWeb.QuotesController do
   end
 
   def index(conn, _params) do
+    IO.inspect(conn.params["format"], label: "format")
     q = Quotes.random() |> transform_string_keys_to_atoms
     {"accept", accept} = List.keyfind(conn.req_headers, "accept", 0)
 
