@@ -1,7 +1,7 @@
 defmodule AppWeb.Router do
   use AppWeb, :router
 
-  pipeline :default do
+  pipeline :any do
     plug :negotiate
   end
 
@@ -20,7 +20,7 @@ defmodule AppWeb.Router do
   end
 
   scope "/", AppWeb do
-    pipe_through :default
+    pipe_through :any
 
     get "/", PageController, :index
     resources "/quotes", QuotesController
@@ -38,7 +38,7 @@ defmodule AppWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :default
+      pipe_through :any
       live_dashboard "/dashboard", metrics: AppWeb.Telemetry
     end
   end

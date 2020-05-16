@@ -737,16 +737,16 @@ Let's _replace_ the code in the `router.ex` with the following:
 defmodule AppWeb.Router do
   use AppWeb, :router
 
-  pipeline :default do
+  pipeline :any do
     plug :negotiate
   end
 
   defp negotiate(conn, []) do
     {"accept", accept} = List.keyfind(conn.req_headers, "accept", 0)
 
-    if accept =~ "json" do
+    if accept =~ "json" do # don't do anything for JSON (API) requests:
       conn
-    else
+    else # setup conn for HTML requests:
       conn
       |> fetch_session([])
       |> fetch_flash([])
@@ -756,7 +756,7 @@ defmodule AppWeb.Router do
   end
 
   scope "/", AppWeb do
-    pipe_through :default
+    pipe_through :any
 
     get "/", PageController, :index
     resources "/quotes", QuotesController
@@ -776,7 +776,7 @@ we don't need to do any further setup,
 otherwise we assume the request wants `HTML`
 invoke the appropriate plugs that were in the `:browser` pipeline.
 
-
+Now that our `router.ex` is setup to accept
 
 
 
@@ -790,6 +790,46 @@ invoke the appropriate plugs that were in the `:browser` pipeline.
 <br /> <br />
 
 ## Notes & Observations
+
+
+In Plug (and thus Phoenix) tests, no headers are set
+so this is the output of inspecting the `conn`:
+
+```elixir
+%Plug.Conn{
+  adapter: {Plug.Adapters.Test.Conn, :...},
+  assigns: %{},
+  before_send: [],
+  body_params: %Plug.Conn.Unfetched{aspect: :body_params},
+  cookies: %Plug.Conn.Unfetched{aspect: :cookies},
+  halted: false,
+  host: "www.example.com",
+  method: "GET",
+  owner: #PID<0.335.0>,
+  params: %Plug.Conn.Unfetched{aspect: :params},
+  path_info: [],
+  path_params: %{},
+  port: 80,
+  private: %{phoenix_recycled: true, plug_skip_csrf_protection: true},
+  query_params: %Plug.Conn.Unfetched{aspect: :query_params},
+  query_string: "",
+  remote_ip: {127, 0, 0, 1},
+  req_cookies: %Plug.Conn.Unfetched{aspect: :cookies},
+  req_headers: [],
+  request_path: "/",
+  resp_body: nil,
+  resp_cookies: %{},
+  resp_headers: [{"cache-control", "max-age=0, private, must-revalidate"}],
+  scheme: :http,
+  script_name: [],
+  secret_key_base: nil,
+  state: :unset,
+  status: nil
+}
+```
+That means we need to _explicitly_ set the `accept` header
+in our tests to avoid the router _exploding_.
+
 
 <br />
 
