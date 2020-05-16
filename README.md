@@ -1076,7 +1076,41 @@ Randomized with seed 485
 ```
 
 At this point we have functioning content negotiation in our little app. <br />
-Our
+
+#### 5.2 Test the JSON Request
+
+At present we don't have a test that executes the `json` branch of our code.
+We know it _works_ from our terminal (_manual cURL_) testing,
+but we don't yet have an _automated_ test.
+Let's fix that!
+
+Open the `test/app_web/controllers/quotes_controller_test.exs` file
+and add the following test to it:
+
+```elixir
+test "GET /quotes (JSON)", %{conn: conn} do
+  conn =
+    conn
+    |> put_req_header("accept", "application/json")
+    |> get(Routes.quotes_path(conn, :index))
+
+  {:ok, json} = Jason.decode(conn.resp_body)
+  %{ "author" => author, "text" => text } = json
+  assert String.length(author) > 2
+  assert String.length(text) > 10
+end
+```
+
+> **Note**: we are asserting that the length of `author` and `text`
+is greater than a certain String length because we cannot
+make any other assertions against a _random_ quotation.
+This is enough for our needs because we know that we were able to
+`Jason.decode` the `conn.resp_body` indicating that it's _valid_ `JSON`.
+
+This will indirectly invoke the
+`AppWeb.QuotesController.get_accept_header/1` function
+that extracts the `"accept"` header from `conn.req_header`.
+So we should have full test coverage for our little project.
 
 
 
