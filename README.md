@@ -1112,7 +1112,9 @@ This will indirectly invoke the
 that extracts the `"accept"` header from `conn.req_header`.
 So we should have full test coverage for our little project.
 
-
+> Your `test/app_web/controllers/quotes_controller_test.exs`
+file should now look like this:
+[`quotes_controller_test.exs#L10-L20`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/f38ca1fcd8db4b98d4948a3ef86aef0ba116d1e2/test/app_web/controllers/quotes_controller_test.exs#L10-L20)
 
 
 <br /> <br />
