@@ -2,6 +2,7 @@ defmodule AppWeb.Router do
   use AppWeb, :router
 
   pipeline :any do
+    plug :accepts, ["html", "json"]
     plug :negotiate
   end
 
