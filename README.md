@@ -1054,7 +1054,7 @@ end
 ```
 
 > Your `router.ex` file should look like this:
-[`router.ex#L8-L18`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/a6fb74bf65136bd6840ee3f50af91fd15952a078/lib/app_web/router.ex#L8-L18)
+[`router.ex#L8-L18`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/38e264867f93edc6c73a84d8750631d8148a4cf7/lib/app_web/router.ex#L9-L19)
 
 
 
@@ -1149,25 +1149,108 @@ and replace the contents with the following:
     <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
     <title>Random Motivational Quotes App</title>
   </head>
-  <body class="container pt4 w-100 helvetica tc">
+  <body class="container w-100 helvetica tc">
     <%= @inner_content %>
   </body>
 </html>
 ```
 
+This is a good simplification of the layout template.
+The only addition is the Tachyons CSS library
+so that we can have easy control over the layout and typography.
+If you want to learn more see:
+[/dwyl/learn-tachyons](https://github.com/dwyl/learn-tachyons)
+
 Before:
 [`app.html.eex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/d5a601392f9661608d06a799d7042306e86cbe6b/lib/app_web/templates/layout/app.html.eex) <br />
 After:
-[`app.html.eex`]()
+[`app.html.eex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/38e264867f93edc6c73a84d8750631d8148a4cf7/lib/app_web/templates/layout/app.html.eex)
 
 
+If you run the Phoenix App now:
+
+```
+mix phx.server
+```
+
+And visit the [`/quotes`](http://localhost:4000/quotes)
+
+![Nothing-works-unless-you-do](https://user-images.githubusercontent.com/194400/82143222-2ab12900-983a-11ea-96bb-46dbcac58374.png)
+
+This is already _much_ tidier.
+
+But we can take it a step further.
+Next we will remove the "Quotes" heading
+from the quotes `index` template.
+Open the `/lib/app_web/templates/quotes/index.html.eex` file
+and replace the contents with:
+
+```html
+<p class="f1 pa2">
+  "<strong><em><%= @quote.text %></em></strong>" <br />
+  ~ <%= @quote.author %>
+</p>
+```
+
+> **Note**: the only two things that might be unfamiliar
+if you are new to Tachyons CSS are the two classes on the `<p>` tag.
+The `f1` just means "font size 1" or (H1)
+and `pa2` means "padding all sides 2 units".
 
 
+The quotes page now looks like this:
+
+![you-can-always-begin-again](https://user-images.githubusercontent.com/194400/82143465-12daa480-983c-11ea-9e39-1e4762f0f53d.png)
+
+#### 6.1 Make `QuotesController` the Default Route Handler
 
 
+At present the "homepage" of the App is the `PageController`
+(_see screenshot above with pink square outlining irrelevant content_).
+The person wanting to see the quotes has to navigate to `/quotes`.
+Let's change it so that the quotes are rendered as the home page.
+
+Open the `lib/app_web/router.ex` file and locate the `scope "/"` section:
+
+```elixir
+scope "/", AppWeb do
+  pipe_through :any
+
+  get "/", PageController, :index
+  resources "/quotes", QuotesController
+end
+```
+
+Replace the code block with this simplified version:
+```elixir
+scope "/", AppWeb do
+  pipe_through :any
+
+  resources "/", QuotesController
+end
+```
+
+See:
+[`router.ex#L21-L25`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/82432a8045875bcb7811c74d1a20096c924f9dd8/lib/app_web/router.ex#L21-L25)
+
+Now when we visit the home page
+[http://localhost:4000](http://localhost:4000)
+we see a quote:
+
+![dale-carnegie-quote](https://user-images.githubusercontent.com/194400/82153416-411dab80-985f-11ea-83c5-7eaf20c856cd.png)
+
+Now we just add a picture of sunrise from Unsplash:
+https://unsplash.com/photos/UweNcthlmDc
+
+See:
+[`index.html.eex#L7-L23`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/82432a8045875bcb7811c74d1a20096c924f9dd8/lib/app_web/templates/quotes/index.html.eex#L7-L23)
 
 
+And boom we have a motivational quote generator:
 
+![quote-with-baground-image](https://user-images.githubusercontent.com/194400/82154056-55fc3e00-9863-11ea-8592-b2dbc224fc00.png)
+
+![teach-what-you-need-to-learn](https://user-images.githubusercontent.com/194400/82154326-f7d05a80-9864-11ea-8c33-926c438ddcb4.png)
 
 
 
