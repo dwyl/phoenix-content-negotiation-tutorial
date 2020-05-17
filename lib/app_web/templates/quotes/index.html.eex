@@ -1,2 +1,4 @@
-<h1>Quotes</h1>
-<p>"<strong><em><%= @quote.text %></em></strong>" ~ <%= @quote.author %></p>
+<p class="f1 pa2">
+  "<strong><em><%= @quote.text %></em></strong>" <br />
+  ~ <%= @quote.author %>
+</p>
