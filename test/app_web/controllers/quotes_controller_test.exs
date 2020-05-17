@@ -4,7 +4,7 @@ defmodule AppWeb.QuotesControllerTest do
   describe "/quotes" do
     test "GET /quotes (HTML) shows a random quote", %{conn: conn} do
       conn = get(conn, Routes.quotes_path(conn, :index))
-      assert html_response(conn, 200) =~ "Quote"
+      assert html_response(conn, 200) =~ "~"
     end
 
     test "GET /quotes (JSON)", %{conn: conn} do
