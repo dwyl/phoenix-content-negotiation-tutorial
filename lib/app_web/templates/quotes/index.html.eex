@@ -1,4 +1,23 @@
-<p class="f1 pa2">
-  "<strong><em><%= @quote.text %></em></strong>" <br />
-  ~ <%= @quote.author %>
-</p>
+
+  <p class="f1 ph5 tl">
+    "<strong class="fw9"><em><%= @quote.text %></em></strong>"
+     <span class="fr"> ~ <%= @quote.author %></span>
+  </p>
+
+  <small class="fixed right-0 bottom-1 mr3 white" style="font-size: 0.2em;">
+    Sunrise Photo by
+    <a class="no-underline white" href="https://unsplash.com/photos/UweNcthlmDc">
+      Alice Donovan Rouse on Unsplash
+    </a>
+  </small>
+
+<style>
+  body {
+    background-image: url(https://i.imgur.com/TIAf9Il.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    opacity: .8;
+  }
+</style>

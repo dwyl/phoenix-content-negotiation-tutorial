@@ -21,8 +21,7 @@ defmodule AppWeb.Router do
   scope "/", AppWeb do
     pipe_through :any
 
-    get "/", PageController, :index
-    resources "/quotes", QuotesController
+    resources "/", QuotesController
   end
 
 

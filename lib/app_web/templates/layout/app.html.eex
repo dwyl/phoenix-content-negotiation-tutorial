@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
     <title>Random Motivational Quotes App</title>
   </head>
-  <body class="container w-100 helvetica tc">
+  <body class="container w-100 helvetica">
     <%= @inner_content %>
   </body>
 </html>
