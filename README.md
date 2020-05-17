@@ -751,7 +751,7 @@ defmodule AppWeb.Router do
   use AppWeb, :router
 
   pipeline :any do
-    plug :accepts, ["html", "json"]
+    plug :accepts, ~w(html json)
     plug :negotiate
   end
 
@@ -1118,7 +1118,69 @@ file should now look like this:
 [`quotes_controller_test.exs#L10-L20`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/f38ca1fcd8db4b98d4948a3ef86aef0ba116d1e2/test/app_web/controllers/quotes_controller_test.exs#L10-L20)
 
 
-<br /> <br />
+### 6. Tidy Up The Project (_Optional_)
+
+At this stage we have a working app that shows random quotations.
+But anyone _viewing_ the app will first be greeted by irrelevant noise:
+
+<img width="950" alt="home-page-irrelevant" src="https://user-images.githubusercontent.com/194400/82142227-b2933500-9832-11ea-9e4c-c473ea5d58b2.png">
+
+The home page of the App is the default Phoenix one
+and has no info about what the app actually does.
+
+<img width="937" alt="quotes-page-noise" src="https://user-images.githubusercontent.com/194400/82142232-b626bc00-9832-11ea-84a3-88401418dab1.png">
+
+The quotes route has the Phoenix Framework logo and Links to get Started,
+which are _irrelevant_ to the person viewing the quote.
+
+Let's start by removing the Phoenix Framework logo,
+"Get Started" and "LiveDashboard" links from the layout template.
+
+Open the `lib/app_web/templates/layout/app.html.eex` file
+and replace the contents with the following:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
+    <title>Random Motivational Quotes App</title>
+  </head>
+  <body class="container pt4 w-100 helvetica tc">
+    <%= @inner_content %>
+  </body>
+</html>
+```
+
+Before:
+[`app.html.eex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/d5a601392f9661608d06a799d7042306e86cbe6b/lib/app_web/templates/layout/app.html.eex) <br />
+After:
+[`app.html.eex`]()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br /> <hr /> <br />
 
 ## Notes & Observations
 
