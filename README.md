@@ -35,8 +35,11 @@ so _every_ action can be performed _programatically_.
 Which means _anyone_ can build their _own_ Frontend UI/UX
 for the @dwyl App.
 We believe this is _crucial_ to the success of our product.
-We think the API _is_ our Product and the Web UI
-is just _one_ representation of what is _possible_.
+We think the API _is_ our
+[Product](https://github.com/dwyl/app/issues/273)
+and the Web UI
+is just _one_ representation of what is _possible_
+to build with the API.
 
 <br />
 
@@ -1126,6 +1129,7 @@ So we should have full test coverage for our little project.
 file should now look like this:
 [`quotes_controller_test.exs#L10-L20`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/f38ca1fcd8db4b98d4948a3ef86aef0ba116d1e2/test/app_web/controllers/quotes_controller_test.exs#L10-L20)
 
+<br />
 
 ### 6. Tidy Up The Project (_Optional_)
 
@@ -1330,14 +1334,39 @@ Don't be afraid of doing it.
 You can _always_ recover/restore deleted code
 because it's still there in your `git` history.
 
+See commit:
+[`dcc322a`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/commit/dcc322a2ce0731151002f19a8f0d149b575d59b5)
 
 
+Now when we run `mix test` we see them pass (as expected):
+
+```sh
+Generated app app
+....
+
+Finished in 0.1 seconds
+4 tests, 0 failures
+
+Randomized with seed 746624
+```
+
+With the tests passing, we are _done_!
 
 
+<br />
 
+## Conclusion
 
+In this brief tutorial we have shown
+how to render `HTML` and `JSON`
+in the _same_ route/controller
+using content negotiation.
 
+While this approach is _fine_ for an MVP/tutorial,
+we feel we can do _much_ better.
 
+Please see:
+https://github.com/dwyl/content_negotiation_plug
 
 
 <br /> <hr /> <br />
