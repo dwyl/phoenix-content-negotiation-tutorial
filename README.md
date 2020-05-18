@@ -94,7 +94,7 @@ the 42<sup>nd</sup> quote in the
 [`quotes.json`](https://github.com/dwyl/quotes/blob/master/quotes.json)
 list.
 
-
+<br/>
 
 ### _Try_ It! 💻
 
@@ -104,15 +104,11 @@ Try the Heroku example version so you know what to expect.
 
 #### Browser 📱
 
-Visit:
+Visit: https://phoenix-content-negotiation.herokuapp.com
 
+You should see a random inspiring quote:
 
-
-Random
-
-By ID:
-
-
+![turn-you-face-toward-the-sun](https://user-images.githubusercontent.com/194400/82191756-ea5db380-98ea-11ea-93e7-f83be7557137.png)
 
 
 
@@ -120,6 +116,13 @@ By ID:
 
 Run the following command:
 
+```
+curl -H "Accept: application/json" https://phoenix-content-negotiation.herokuapp.com
+```
+
+You should see a random quote as `JSON`:
+
+![anais-nain-quote-heroku-terminal](https://user-images.githubusercontent.com/194400/82192384-d5cdeb00-98eb-11ea-96d4-fc6332e1a1cc.png)
 
 <br />
 
