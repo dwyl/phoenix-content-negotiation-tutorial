@@ -1267,7 +1267,7 @@ And boom we have a motivational quote generator:
 
 
 
-#### 6.2 Fix Failing Tests
+### 6.2 Fix Failing Tests
 
 We made a few changes in the previous step
 which break our tests.
