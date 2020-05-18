@@ -129,7 +129,7 @@ You should see a random quote as `JSON`:
 ## Who? 👤
 
 
-This example aimed at _anyone_ building a Phoenix App
+This example is aimed at _anyone_ building a Phoenix App
 who wants to _automatically_ have a REST API. <br />
 For us [`@dwyl`](https://github.com/dwyl/app/issues/273)
 who are building our API and App Web UI simultaneously,
@@ -163,7 +163,7 @@ Once you are comfortable with Phoenix, proceed with this example!
 
 <br />
 
-### 0. Run the _Finished_ App ⬇️
+## 0. Run the _Finished_ App ⬇️
 
 We encourage everyone to
 ["_Begin With the End in Mind_"](https://en.wikipedia.org/wiki/The_7_Habits_of_Highly_Effective_People#2_-_Begin_with_the_end_in_mind)
@@ -173,10 +173,8 @@ Seeing the App _working_ on your machine will
 give you confidence that we will achieve our objectives (defined above)
 and it's a good reference if you get stuck.
 
-If for any reason it _doesn't_ work, you can
-[**open an issue**](https://github.com/dwyl/phoenix-content-negotiation-tutorial/issues)
 
-#### Clone the Repository 📋
+### Clone the Repository 📋
 
 In your terminal, clone the repo from GitHub:
 
@@ -184,7 +182,7 @@ In your terminal, clone the repo from GitHub:
 git clone git@github.com:dwyl/phoenix-content-negotiation-tutorial.git
 ```
 
-#### Install The Dependencies 📦
+### Install The Dependencies 📦
 
 Change into the newly created directory and run the `mix` command:
 
@@ -194,7 +192,7 @@ mix deps.get
 ```
 
 
-#### Run the App 🚀
+### Run the App 🚀
 
 Run the Phoenix app with the following command:
 
@@ -210,7 +208,7 @@ You should see output similar to the following in your terminal:
 ```
 
 
-#### Test it in your Browser 🖥️
+### Test it in your Browser 🖥️
 
 Visit:
 [http://localhost:4000](http://localhost:4000)
@@ -220,7 +218,7 @@ You should see a random motivational quote like this:
 ![gothe-spend-your-time-quote](https://user-images.githubusercontent.com/194400/82154449-f5223500-9865-11ea-975e-4bb4c020577c.png)
 
 
-#### Test it in your Terminal ⬛
+### Test it in your Terminal ⬛
 
 In your terminal, run the following `curl` command:
 
@@ -1137,7 +1135,7 @@ But anyone _viewing_ the app will first be greeted by irrelevant noise:
 <img width="950" alt="home-page-irrelevant" src="https://user-images.githubusercontent.com/194400/82142227-b2933500-9832-11ea-9e4c-c473ea5d58b2.png">
 
 The home page of the App is the default Phoenix one
-and has no info about what the app actually does.
+and has no info about what the app actually _does_.
 
 <img width="937" alt="quotes-page-noise" src="https://user-images.githubusercontent.com/194400/82142232-b626bc00-9832-11ea-84a3-88401418dab1.png">
 
@@ -1192,7 +1190,7 @@ This is already _much_ tidier.
 
 But we can take it a step further.
 Next we will remove the "Quotes" heading
-from the quotes `index` template.
+from the quotes `index` template. <br />
 Open the `/lib/app_web/templates/quotes/index.html.eex` file
 and replace the contents with:
 
@@ -1265,6 +1263,74 @@ And boom we have a motivational quote generator:
 
 
 
+#### 6.2 Fix Failing Tests
+
+We made a few changes in the previous step
+which break our tests.
+
+If you run `mix test` you will see that
+`page_controller_test.exs` are failing:
+
+```
+Compiling 4 files (.ex)
+....
+
+  1) test GET / (AppWeb.PageControllerTest)
+     test/app_web/controllers/page_controller_test.exs:4
+     Assertion with =~ failed
+     code:  assert html_response(conn, 200) =~ "Welcome to Phoenix!"
+     left:  "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    
+     <meta charset=\"utf-8\"/>\n    
+     <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"/>\n    
+     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>\n    
+     <link rel=\"stylesheet\" href=\"https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css\"/>\n    
+     <title>Random Motivational Quotes App</title>\n  </head>\n  
+     <body class=\"container w-100 helvetica\">\n\n  <p class=\"f1 ph5 tl\">\n  
+     \"<strong class=\"fw9\"><em>One who gains strength by overcoming obstacles
+     possesses the only strength which can overcome adversity.</em></strong>\"\n     
+     <span class=\"fr\"> ~ Albert Schweitzer</span>\n  </p>\n\n  
+     <small class=\"fixed right-0 bottom-1 mr3 white\" style=\"font-size: 0.1em;\">\n    
+     Sunrise Photo by\n <a class=\"no-underline white\"
+     href=\"https://unsplash.com/photos/UweNcthlmDc\">\n      
+     Alice Donovan Rouse on Unsplash\n    </a>\n  </small>\n\n<style>\n  
+     body {\n    background-image: url(https://i.imgur.com/TIAf9Il.jpg);\n    
+       background-repeat: no-repeat;\n    background-size: cover;\n    
+       width: 100%;\n    height: 100%;\n    opacity: .8;\n  }\n</style>\n  
+       </body>\n</html>\n"
+     right: "Welcome to Phoenix!"
+     stacktrace:
+       test/app_web/controllers/page_controller_test.exs:6: (test)
+
+
+
+Finished in 0.1 seconds
+5 tests, 1 failure
+
+Randomized with seed 305070
+```
+
+This test will _never_ pass again
+because we are no longer _using_
+`PageController` in our project.
+
+So, let's **`delete`** the controller, view, template
+and the corresponding test files:
+
+```
+rm lib/app_web/controllers/page_controller.ex
+rm lib/app_web/templates/page/index.html.eex
+rm lib/app_web/views/page_view.ex
+rm test/app_web/controllers/page_controller_test.exs
+rm test/app_web/views/page_view_test.exs
+```
+
+Deleting code (_and the corresponding tests_)
+is an important part of _maintenance_ in a software project.
+Don't be afraid of doing it.
+You can _always_ recover/restore deleted code
+because it's still there in your `git` history.
+
+
 
 
 
@@ -1324,6 +1390,6 @@ and found the thread useful. <br />
 3 years later we are using it as the basis for our solution! <br />
 In the future others will stumble upon it
 and be grateful that it exists. <br />
-Open issues with questions!
+Conclusion: _Open issues_ with questions!
 It's the _right_ thing to do to learn and discuss all topics. <br />
 Both people in your team and complete strangers will benefit!
