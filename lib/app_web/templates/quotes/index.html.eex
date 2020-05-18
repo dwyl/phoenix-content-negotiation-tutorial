@@ -4,7 +4,7 @@
      <span class="fr"> ~ <%= @quote.author %></span>
   </p>
 
-  <small class="fixed right-0 bottom-1 mr3 white" style="font-size: 0.2em;">
+  <small class="fixed right-0 bottom-1 mr3 white" style="font-size: 0.1em;">
     Sunrise Photo by
     <a class="no-underline white" href="https://unsplash.com/photos/UweNcthlmDc">
       Alice Donovan Rouse on Unsplash

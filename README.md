@@ -209,17 +209,25 @@ You should see output similar to the following in your terminal:
 
 #### Test it in your Browser 🖥️
 
-# TODO: update with screenshot of _finished_ app
+Visit:
+[http://localhost:4000](http://localhost:4000)
 
+You should see a random motivational quote like this:
 
+![gothe-spend-your-time-quote](https://user-images.githubusercontent.com/194400/82154449-f5223500-9865-11ea-975e-4bb4c020577c.png)
 
 
 #### Test it in your Terminal ⬛
 
-# Todo: update with screenshot of terminal response
+In your terminal, run the following `curl` command:
 
+```
+curl -H "Accept: application/json" http://localhost:4000
+```
 
+You should see a _random_ quote:
 
+![enthusiasm-terminal-quote](https://user-images.githubusercontent.com/194400/82190805-7ff84380-98e9-11ea-8159-e13ea3a44a01.png)
 
 
 Now that you know the end state of the tutorial _works_,
