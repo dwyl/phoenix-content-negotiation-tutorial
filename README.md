@@ -1375,15 +1375,16 @@ With the tests passing, we are _done_!
 
 <br />
 
-### Conclusion
+### But Wait! There's More ...
 
-In this brief tutorial we have shown
+So far in the tutorial we have shown
+from first principals
 how to render `HTML` and `JSON`
 in the _same_ route/controller
 using content negotiation.
 
 While this approach is _fine_ for an MVP/tutorial,
-we feel we can do _much_ better.
+we feel we can do _much_ better!
 
 ## Part 2
 
