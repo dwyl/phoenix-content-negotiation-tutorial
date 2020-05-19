@@ -112,11 +112,10 @@ The aim of this tutorial is to demonstrate
 content negotiation in a real-world scenario. <br />
 We are going to build a simple interface to display
 famous quotations, both a basic Web UI and REST API. <br />
-When people visit: `/quotes/random` they will see a random quotation. <br />
-When they visit: `/quotes/:id` (e.g: `/quotes/42`)
-the 42<sup>nd</sup> quote in the
-[`quotes.json`](https://github.com/dwyl/quotes/blob/master/quotes.json)
-list.
+When we visit: `/` in a browser
+we see a random quotation rendered as `HTML`. <br />
+When we `curl` the _same_ endpoint,
+we see a `JSON` representation.
 
 <br/>
 
