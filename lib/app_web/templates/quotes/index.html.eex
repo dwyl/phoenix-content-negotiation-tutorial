@@ -1,7 +1,7 @@
 
   <p class="f1 ph5 tl">
-    "<strong class="fw9"><em><%= @quote.text %></em></strong>"
-     <span class="fr"> ~ <%= @quote.author %></span>
+    "<strong class="fw9"><em><%= @data.text %></em></strong>"
+     <span class="fr"> ~ <%= @data.author %></span>
   </p>
 
   <small class="fixed right-0 bottom-1 mr3 white" style="font-size: 0.1em;">
