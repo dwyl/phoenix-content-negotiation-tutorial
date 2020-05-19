@@ -49,6 +49,9 @@ defmodule App.MixProject do
       # quotes library: https://github.com/dwyl/quotes
       {:quotes, "~> 1.0.5"},
 
+      # content negotiation plug: https://github.com/dwyl/content
+      {:content, "~> 0.1.0"},
+
       # Test Code Coverage:
       {:excoveralls, "~> 0.12.2", only: :test},
     ]
