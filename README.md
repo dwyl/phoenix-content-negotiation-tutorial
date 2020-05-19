@@ -51,6 +51,21 @@ to build with the API.
 
 ## What? 💡
 
+This tutorial shows how to do content negotiation
+in a Phoenix App from first principals.
+If you just want to implement
+content negotiation in your project
+as fast as possible see:
+[github.com/dwyl/content](https://github.com/dwyl/content).
+We still _recommend_ following this tutorial
+as it only takes 20 mins and
+will ensure you
+[_understand_](https://youtu.be/NM-zWTU7X-k)
+how to do it from scratch.
+
+
+### Context
+
 In our
 [App](https://github.com/dwyl/app)
 we want to ensure that
@@ -1372,7 +1387,7 @@ While this approach is _fine_ for an MVP/tutorial,
 we feel we can do _much_ better.
 
 Please see:
-https://github.com/dwyl/content_negotiation_plug
+https://github.com/dwyl/content
 
 
 <br /> <hr /> <br />
