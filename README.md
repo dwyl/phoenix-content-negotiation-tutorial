@@ -5,6 +5,12 @@
 A tutorial showing how to return _different content_ (format)
 for the _same route_ based on `Accepts` header.
 
+
+[![Build Status](https://img.shields.io/travis/dwyl/phoenix-content-negotiation-tutorial/master.svg?style=flat-square)](https://travis-ci.org/dwyl/phoenix-content-negotiation-tutorial)
+[![codecov.io](https://img.shields.io/codecov/c/github/dwyl/phoenix-content-negotiation-tutorial/master.svg?style=flat-square)](http://codecov.io/github/dwyl/phoenix-content-negotiation-tutorial?branch=master)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/dwyl/phoenix-content-negotiation-tutorial/issues)
+[![HitCount](http://hits.dwyl.io/dwyl/phoenix-content-negotiation-tutorial.svg)](https://github.com/dwyl/phoenix-content-negotiation-tutorial)
+
 </div>
 
 ## Why? 🤷
@@ -160,7 +166,7 @@ and
 
 Ideally follow the "Chat" example
 for more detailed step-by-step introduction to Phoenix:
-[github.com/dwyl/**phoenix-chat-example**](https://github.com/dwyl/phoenix-chat-example)
+[github.com/dwyl/**phoenix-content-negotiation-tutorial**](https://github.com/dwyl/phoenix-content-negotiation-tutorial)
 
 Once you are comfortable with Phoenix, proceed with this example!
 
