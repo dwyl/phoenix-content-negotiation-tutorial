@@ -5,12 +5,15 @@ defmodule App.MixProject do
     [
       app: :app,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.10",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [coveralls: :test, "coveralls.detail": :test,
+      "coveralls.json": :test, "coveralls.post": :test, "coveralls.html": :test],
     ]
   end
 
@@ -44,7 +47,10 @@ defmodule App.MixProject do
       {:plug_cowboy, "~> 2.0"},
 
       # quotes library: https://github.com/dwyl/quotes
-      {:quotes, "~> 1.0.5"}
+      {:quotes, "~> 1.0.5"},
+
+      # Test Code Coverage:
+      {:excoveralls, "~> 0.12.2", only: :test},
     ]
   end
 
