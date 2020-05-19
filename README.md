@@ -52,11 +52,11 @@ to build with the API.
 ## What? 💡
 
 This tutorial shows how to do content negotiation
-in a Phoenix App from first principals.
+in a Phoenix App from first principals. <br />
 If you just want to implement
 content negotiation in your project
 as fast as possible see:
-[github.com/dwyl/content](https://github.com/dwyl/content).
+[github.com/dwyl/content](https://github.com/dwyl/content). <br />
 We still _recommend_ following this tutorial
 as it only takes 20 mins and
 will ensure you
@@ -1031,7 +1031,7 @@ and add the following helper function:
 
 ```elixir
 @doc """
-`get_accept_header/2` gets the "accept" header from req_headers.
+`get_accept_header/1` gets the "accept" header from req_headers.
 Defaults to "text/html" if no header is set.
 """
 def get_accept_header(conn) do
@@ -1375,7 +1375,7 @@ With the tests passing, we are _done_!
 
 <br />
 
-## Conclusion
+### Conclusion
 
 In this brief tutorial we have shown
 how to render `HTML` and `JSON`
@@ -1385,9 +1385,181 @@ using content negotiation.
 While this approach is _fine_ for an MVP/tutorial,
 we feel we can do _much_ better.
 
-Please see:
-https://github.com/dwyl/content
+## Part 2
 
+In the first part of this tutorial,
+we saw how to add Content Negotiation
+to a Phoenix App from
+[_first principals_](https://youtu.be/HZRDUZuIKg4?t=47).
+
+In the next 2 mintues we will
+[refactor](https://github.com/dwyl/learn-tdd/issues/134)
+our Phoenix App
+to use the `content` package.
+
+### 7. Add the `content` Package to `mix.exs`
+
+Open the `mix.exs` file,
+locate the `deps` definition and add the following line:
+
+```elixir
+{:content, "~> 0.1.0"},
+```
+
+e.g:
+
+Install the dependency:
+
+```sh
+mix deps.get
+```
+
+You should see output similar to the following:
+
+```sh
+New:
+  content 0.1.0
+* Getting content (Hex package)
+```
+
+
+### 8. Add the Plug to `router.ex`
+
+Open the `lib/app_web/router.ex` file
+and replace the line that read `plug :negotiate` with:
+
+```elixir
+plug Content, %{html_plugs: [
+  &fetch_session/2,
+  &fetch_flash/2,
+  &protect_from_forgery/2,
+  &put_secure_browser_headers/2
+]}
+```
+
+> **Note**: those `&` and `/2` additions to the names of plugs
+are the `Elixir` way of passing functions by reference.
+The `&` means "capture" and the `/2` is the Arity of the function
+we are passing.
+We would _obviously_ prefer if functions were just variables
+like they are in some other programming languages,
+but this works.
+See:
+https://dockyard.com/blog/2016/08/05/understand-capture-operator-in-elixir
+and:
+https://culttt.com/2016/05/09/functions-first-class-citizens-elixir
+
+
+As we have _replaced_ the
+[`negotiate/2`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/b9e9138ee32bc53df8dda42f390aaca89ed303ee/lib/app_web/router.ex#L9-L19)
+function
+we can safely remove it from the `router.ex` file.
+
+
+Before:
+[`router.ex#L4-L19`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/b9e9138ee32bc53df8dda42f390aaca89ed303ee/lib/app_web/router.ex#L4-L19) <br />
+After:
+[`router.ex`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/0edf85b4757c40a7cb7d5a98fb1b320051df0d3e/lib/app_web/router.ex#L6-L11)
+
+Simple, right? 😉
+
+
+### 9. Use the `Content.reply/5` in `QuotesController`
+
+Finally in the `lib/app_web/controllers/quotes_controller.ex`
+replace the lines:
+
+```elixir
+if get_accept_header(conn) =~ "json" do
+  json(conn, q)
+else
+  render(conn, "index.html", quote: q)
+end
+```
+
+With:
+
+```elixir
+Content.reply(conn, &render/3, "index.html", &json/2, q)
+```
+
+The `Content.render/5` takes the 5 params:
+1. `conn` - the `Plug.Conn` where we get the `req_headers` from.
+2. `render/3` - the `Phoenix.Controller.render/3` function,
+or your own implementation of a render function that
+takes `conn`, `template` and `data` as it's 3 params.
+3. `template` - the `.html` template to be rendered
+if the `accept` header matches `"html"`; in this case `"index.html"`
+4. `json/2` - the `Phoenix.Controller.json/2` function
+that renders `json` data.
+Or your own implementation that accepts the two params:
+`conn` and `data` corresponding to the `Plug.Conn`
+and the `json` data you want to return.
+5. `data` - in this case the `q` (_or `quote`_) we want to render
+as `HTML` or `JSON`.
+
+With this _single_ line we can render `HTML` or `JSON`
+depending on the `accept` header.
+
+We can `delete` the `get_accept_header/1` function
+we created in step 5.1 (above)
+as it's now baked into the `Content.reply/5`. <br />
+**Note**: it's still available as `Content.get_accept_header/1`
+if we ever need it in one of our our Controllers.
+
+If you need finer grained control in your controller,
+you can still write code like this:
+
+```elixir
+if Content.get_accept_header(conn) =~ "json" do
+  data = transform_data(q)
+  json(conn, data)
+else
+  render(conn, "index.html", data: q)
+end
+```
+
+
+
+> Commit:
+[3e4f49d](https://github.com/dwyl/phoenix-content-negotiation-tutorial/commit/3e4f49da2e6b700bdaee5ebe40f15298bc0da3df)
+
+Note: we also updated our `lib/app_web/templates/quotes/index.html.eex`
+file from: `@quote.text` to `@data.text` to reflect how `Content.reply/5`
+labels the data.
+
+
+### 9.1 Re-Run The Tests!
+
+To confirm that the refactor is successful,
+re-run the tests:
+
+```sh
+mix test
+```
+
+Everything still passes:
+
+```
+Compiling 3 files (.ex)
+....
+
+Finished in 0.08 seconds
+4 tests, 0 failures
+
+Randomized with seed 452478
+```
+
+
+# Done.
+
+In this tutorial we learned how to do Content Negotiation
+from first principals.
+Then we saw how to use the `content` Plug
+to simplify our project.
+
+If you found this useful,
+please ⭐ the repo on GitHub!
 
 <br /> <hr /> <br />
 
