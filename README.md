@@ -1484,7 +1484,7 @@ With:
 Content.reply(conn, &render/3, "index.html", &json/2, q)
 ```
 
-The `Content.render/5` takes the 5 params:
+The `Content.reply/5` takes the 5 argument:
 1. `conn` - the `Plug.Conn` where we get the `req_headers` from.
 2. `render/3` - the `Phoenix.Controller.render/3` function,
 or your own implementation of a render function that
