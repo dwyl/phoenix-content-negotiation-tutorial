@@ -1385,7 +1385,7 @@ using content negotiation.
 While this approach is _fine_ for an MVP/tutorial,
 we feel we can do _much_ better.
 
-## Part 2
+## Part 2
 
 In the first part of this tutorial,
 we saw how to add Content Negotiation
@@ -1554,12 +1554,15 @@ Randomized with seed 452478
 # Done.
 
 In this tutorial we learned how to do Content Negotiation
-from first principals.
+from first principals. <br />
 Then we saw how to use the `content` Plug
-to simplify our project.
+to simplify our code!
 
 If you found this useful,
 please ⭐ the repo on GitHub!
+
+![image](https://user-images.githubusercontent.com/194400/82329629-84038e80-99d9-11ea-9021-123447d2211a.png)
+
 
 <br /> <hr /> <br />
 
