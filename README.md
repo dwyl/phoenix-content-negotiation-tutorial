@@ -15,10 +15,26 @@ for the _same route_ based on `Accepts` header.
 
 ## Why? 🤷
 
+As a small team of software engineers,
+we don't have resources (_time_)
+to maintain two _separate_ applications
+(_one for our App and another for an API_)
+the way some larger companies do.
+We need to focus on building _features_
+that people _using_ our products want/need.
+We want to be able to ship our
+Web UI _and_ a corresponding feature-complete
+REST API in the _same_ Phoenix App.
+This way everyone using our App
+has a "default" UI/UX
+(_the server-rendered client-enhanced Phoenix Web UI_)
+while _simultaneously_ giving people
+who want/need API access,
+_exactly_ what they need from day 1.
+
 This tutorial shows how simple it is
 to turn _any_ Phoenix Web App into a REST API
 using the _same_ routes as your Web UI.
-
 
 
 
@@ -1408,6 +1424,7 @@ locate the `deps` definition and add the following line:
 ```
 
 e.g:
+[`mix.exs#L52-L53`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/22501adbbe8159d28b37f39d912519f39346d1bd/mix.exs#L52-L53)
 
 Install the dependency:
 
