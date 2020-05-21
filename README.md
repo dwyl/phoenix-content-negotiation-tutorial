@@ -507,6 +507,7 @@ Let's **`delete`** the files we don't _need_ so our project is tidy:
 rm lib/app_web/templates/quotes/edit.html.eex
 rm lib/app_web/templates/quotes/form.html.eex
 rm lib/app_web/templates/quotes/new.html.eex
+rm lib/app_web/templates/quotes/show.html.eex
 ```
 
 > Commit:
@@ -572,7 +573,7 @@ and replace the contents with the following code:
 defmodule AppWeb.QuotesControllerTest do
   use AppWeb.ConnCase
 
-  describe "/quots" do
+  describe "/quotes" do
     test "shows a random quote", %{conn: conn} do
       conn = get(conn, Routes.quotes_path(conn, :index))
       assert html_response(conn, 200) =~ "Quote"
@@ -654,7 +655,7 @@ Run the Phoenix server:
 mix phx.server
 ```
 
-Then visit [`localhost:4000`](http://localhost:4000) in your web browser. <br />
+Then visit [`localhost:4000/quotes`](http://localhost:4000/quotes) in your web browser. <br />
 You should see a random quotation:
 
 
