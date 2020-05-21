@@ -31,6 +31,37 @@ has a "default" UI/UX
 while _simultaneously_ giving people
 who want/need API access,
 _exactly_ what they need from day 1.
+We know from _experience_ that
+Apps that focus on UI
+and leave the API for "later"
+end up producing a poor API experience.
+We want to avoid that at all costs.
+People who want to use the @dwyl API
+_exclusively_ and never _look_ at the web UI,
+should _always_ be able to do that.
+If someone wants to use @dwyl from their CLI
+they should be able to use 100% of the features.
+If they want to add items to their lists via
+[IFTTT](https://ifttt.com/) or
+[Zapier](https://zapier.com/)
+they should be able to do that without any obstacles.
+
+The _only_ way to achieve feature parity between our UI and API
+is by making the API a
+["first class citizen"](https://en.wikipedia.org/wiki/First-class_citizen)
+and requiring every feature we build
+to render both `HTML` and `JSON`.
+Building our app with Content Negotiation baked in
+guarantees that _anyone_ can use their creativity
+to build _any_ UI/UX to interface with their data.
+It also ensures that we have 100% accessibility
+because _any_ device can access the data.
+We believe this is a more _inclusive_ way to build Apps
+even if it adds a 5-10% more "work" up-front,
+it's 100% worth it for achieving our
+[mission](https://github.com/dwyl/start-here/blob/master/mission.md#what-is-dwyls-mission)!
+By _combining_ the Web UI and API into the _same_ Phoenix Application,
+we only have one thing to focus on, deploy, scale and maintain.
 
 This tutorial shows how simple it is
 to turn _any_ Phoenix Web App into a REST API
