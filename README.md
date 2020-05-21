@@ -227,7 +227,7 @@ and
 
 Ideally follow the "Chat" example
 for more detailed step-by-step introduction to Phoenix:
-[github.com/dwyl/**phoenix-content-negotiation-tutorial**](https://github.com/dwyl/phoenix-content-negotiation-tutorial)
+[github.com/dwyl/**phoenix-chat-example**](https://github.com/dwyl/phoenix-chat-example)
 
 Once you are comfortable with Phoenix, proceed with this example!
 
