@@ -1452,7 +1452,7 @@ Open the `mix.exs` file,
 locate the `deps` definition and add the following line:
 
 ```elixir
-{:content, "~> 1.1.0"},
+{:content, "~> 1.2.0"},
 ```
 
 e.g:
@@ -1607,21 +1607,15 @@ If you want to access the json data via the url,
 
 `Content` will automatically recognise the request
 update the accept header to be `application/json`
-and send back the data as json.
+and send back the data as `json`.
 
-For that you just need to update the `router.ex` file 
-to define the `/.json` route:
-
-```elixir
-    get "/", QuotesController, :index
-    get "/.json", QuotesController, :index
-```
 
 > commit
 [d0411c](https://github.com/dwyl/phoenix-content-negotiation-tutorial/pull/4/commits/d0e411c81cf6d24ee0108a4229b82d6b8b6afec3#diff-8e8896f8e2feae7af2644a9d5d20fc08R20-R21)
 
 You can now access [http://localhost:4000/.json](http://localhost:4000/.json) to
 retreive a random quote in json
+
 # Done.
 
 In this tutorial we learned how to do Content Negotiation
