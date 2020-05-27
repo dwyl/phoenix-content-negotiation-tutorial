@@ -4,7 +4,7 @@ defmodule App.MixProject do
   def project do
     [
       app: :app,
-      version: "1.0.0",
+      version: "1.3.0",
       elixir: "~> 1.10",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -12,8 +12,13 @@ defmodule App.MixProject do
       aliases: aliases(),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [coveralls: :test, "coveralls.detail": :test,
-      "coveralls.json": :test, "coveralls.post": :test, "coveralls.html": :test],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.json": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -36,7 +41,7 @@ defmodule App.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5.1"},
+      {:phoenix, "~> 1.5.3"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_dashboard, "~> 0.2.0"},
@@ -50,10 +55,10 @@ defmodule App.MixProject do
       {:quotes, "~> 1.0.5"},
 
       # content negotiation plug: https://github.com/dwyl/content
-      {:content, "~> 0.1.0"},
+      {:content, "~> 1.3.0"},
 
       # Test Code Coverage:
-      {:excoveralls, "~> 0.12.2", only: :test},
+      {:excoveralls, "~> 0.12.2", only: :test}
     ]
   end
 

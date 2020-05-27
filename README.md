@@ -1452,7 +1452,7 @@ Open the `mix.exs` file,
 locate the `deps` definition and add the following line:
 
 ```elixir
-{:content, "~> 0.1.0"},
+{:content, "~> 1.3.0"},
 ```
 
 e.g:
@@ -1468,7 +1468,7 @@ You should see output similar to the following:
 
 ```sh
 New:
-  content 0.1.0
+  content 1.3.0
 * Getting content (Hex package)
 ```
 
@@ -1600,6 +1600,53 @@ Finished in 0.08 seconds
 Randomized with seed 452478
 ```
 
+<br />
+
+### 10. View `JSON` in a Web Browser
+
+Sometimes while you are testing, 
+you want to view the `JSON` data in Web Browser.
+The `content` package allows you to add `.json`
+to _any_ route directly in the browser's URL field
+and view the `JSON` representation of that route.
+
+`Content` will automatically recognise the request
+update the accept header to be `application/json`
+and send back the data as `JSON`.
+
+There are two steps to enable this:
+
+1. Create a "wildcard" route in your `router.ex` file:
+
+```elixir
+get "/*wildcard", QuotesController, :redirect
+```
+
+e.g: 
+[`/lib/app_web/router.ex#L21`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/ffaeecd5fc0712631563e37c3315704e1853b68a/lib/app_web/router.ex#L21)
+
+
+2. Create the corresponding handler function in your Controller:
+
+```elixir
+def redirect(conn, params) do
+  Content.wildcard_redirect(conn, params, AppWeb.Router)
+end
+```
+
+e.g: 
+[`/lib/app_web/controllers/quotes_controller.ex#L16-L18`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/ffaeecd5fc0712631563e37c3315704e1853b68a/lib/app_web/controllers/quotes_controller.ex#L16-L18)
+
+
+
+You can now visit 
+[http://localhost:4000/.json](http://localhost:4000/.json) 
+in your web browser
+to view a random quote in `JSON` format:
+
+![json-viewed-in-firefox-web-browser](https://user-images.githubusercontent.com/194400/83065081-c3c21a00-a05a-11ea-8adb-063606fbf4bb.png)
+
+<br />
 
 # Done.
 
