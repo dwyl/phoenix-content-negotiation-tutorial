@@ -55,7 +55,7 @@ defmodule App.MixProject do
       {:quotes, "~> 1.0.5"},
 
       # content negotiation plug: https://github.com/dwyl/content
-      {:content, "~> 1.2.0"},
+      {:content, "~> 1.2.3"},
 
       # Test Code Coverage:
       {:excoveralls, "~> 0.12.2", only: :test}
