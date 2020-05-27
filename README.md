@@ -1600,21 +1600,53 @@ Finished in 0.08 seconds
 Randomized with seed 452478
 ```
 
-### 10 Use `.json` in url
+<br />
 
-If you want to access the json data via the url,
- you can add `.json` at the end of the your endpoint.
+### 10. View `JSON` in a Web Browser
+
+Sometimes while you are testing, 
+you want to view the `JSON` data in Web Browser.
+The `content` package allows you to add `.json`
+to _any_ route directly in the browser's URL field
+and view the `JSON` representation of that route.
 
 `Content` will automatically recognise the request
 update the accept header to be `application/json`
-and send back the data as `json`.
+and send back the data as `JSON`.
+
+There are two steps to enable this:
+
+1. Create a "wildcard" route in your `router.ex` file:
+
+```elixir
+get "/*wildcard", QuotesController, :redirect
+```
+
+e.g: 
+[`/lib/app_web/router.ex#L21`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/ffaeecd5fc0712631563e37c3315704e1853b68a/lib/app_web/router.ex#L21)
 
 
-> commit
-[d0411c](https://github.com/dwyl/phoenix-content-negotiation-tutorial/pull/4/commits/d0e411c81cf6d24ee0108a4229b82d6b8b6afec3#diff-8e8896f8e2feae7af2644a9d5d20fc08R20-R21)
+2. Create the corresponding handler function in your Controller:
 
-You can now access [http://localhost:4000/.json](http://localhost:4000/.json) to
-retreive a random quote in json
+```elixir
+def redirect(conn, params) do
+  Content.wildcard_redirect(conn, params, AppWeb.Router)
+end
+```
+
+e.g: 
+[`/lib/app_web/controllers/quotes_controller.ex#L16-L18`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/ffaeecd5fc0712631563e37c3315704e1853b68a/lib/app_web/controllers/quotes_controller.ex#L16-L18)
+
+
+
+You can now visit 
+[http://localhost:4000/.json](http://localhost:4000/.json) 
+in your web browser
+to view a random quote in `JSON` format:
+
+![json-viewed-in-firefox-web-browser](https://user-images.githubusercontent.com/194400/83065081-c3c21a00-a05a-11ea-8adb-063606fbf4bb.png)
+
+<br />
 
 # Done.
 
