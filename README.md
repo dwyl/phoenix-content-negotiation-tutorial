@@ -1468,7 +1468,7 @@ You should see output similar to the following:
 
 ```sh
 New:
-  content 0.1.0
+  content 1.3.0
 * Getting content (Hex package)
 ```
 
