@@ -41,7 +41,7 @@ defmodule App.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5.1"},
+      {:phoenix, "~> 1.5.3"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_dashboard, "~> 0.2.0"},
@@ -55,7 +55,7 @@ defmodule App.MixProject do
       {:quotes, "~> 1.0.5"},
 
       # content negotiation plug: https://github.com/dwyl/content
-      {:content, "~> 1.2.4"},
+      {:content, "~> 1.3.0"},
 
       # Test Code Coverage:
       {:excoveralls, "~> 0.12.2", only: :test}
