@@ -13,8 +13,7 @@ defmodule AppWeb.QuotesController do
     Content.reply(conn, &render/3, "index.html", &json/2, q)
   end
 
-  
-  def redirect_json(conn, params) do
-    Content.redirect_json(conn, params, AppWeb.Router)
+  def redirect(conn, params) do
+    Content.wildcard_redirect(conn, params, AppWeb.Router)
   end
 end

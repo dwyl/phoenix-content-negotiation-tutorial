@@ -18,6 +18,6 @@ defmodule AppWeb.Router do
     pipe_through :any
 
     get "/", QuotesController, :index
-    get "/*pokemon", QuotesController, :redirect_json
+    get "/*wildcard", QuotesController, :redirect
   end
 end
