@@ -1452,7 +1452,7 @@ Open the `mix.exs` file,
 locate the `deps` definition and add the following line:
 
 ```elixir
-{:content, "~> 1.2.0"},
+{:content, "~> 1.3.0"},
 ```
 
 e.g:
