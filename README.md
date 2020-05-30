@@ -176,7 +176,7 @@ Try the Heroku example version so you know what to expect.
 
 Visit: https://phoenix-content-negotiation.herokuapp.com
 <!-- see: https://github.com/dwyl/ping -->
-![wake-sleeping-heroku-app](https://phoenix-content-negotiation.herokuapp.com//ping)
+![wake-sleeping-heroku-app](https://phoenix-content-negotiation.herokuapp.com/ping)
 
 
 You should see a random inspiring quote:
