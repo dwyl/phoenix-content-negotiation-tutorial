@@ -58,7 +58,7 @@ defmodule App.MixProject do
       {:content, "~> 1.3.0"},
 
       # ping to wake the ("Free") Heroku dyno: https://github.com/dwyl/ping
-      {:ping, "~> 0.1.1"},
+      {:ping, "~> 1.0.0"},
 
       # Test Code Coverage:
       {:excoveralls, "~> 0.12.2", only: :test}
