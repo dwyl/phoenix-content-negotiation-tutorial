@@ -175,6 +175,9 @@ Try the Heroku example version so you know what to expect.
 #### Browser 📱
 
 Visit: https://phoenix-content-negotiation.herokuapp.com
+<!-- see: https://github.com/dwyl/ping -->
+![wake-sleeping-heroku-app](https://phoenix-content-negotiation.herokuapp.com/ping)
+
 
 You should see a random inspiring quote:
 
@@ -1604,7 +1607,7 @@ Randomized with seed 452478
 
 ### 10. View `JSON` in a Web Browser
 
-Sometimes while you are testing, 
+Sometimes while you are testing,
 you want to view the `JSON` data in Web Browser.
 The `content` package allows you to add `.json`
 to _any_ route directly in the browser's URL field
@@ -1622,7 +1625,7 @@ There are two steps to enable this:
 get "/*wildcard", QuotesController, :redirect
 ```
 
-e.g: 
+e.g:
 [`/lib/app_web/router.ex#L21`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/ffaeecd5fc0712631563e37c3315704e1853b68a/lib/app_web/router.ex#L21)
 
 
@@ -1634,13 +1637,13 @@ def redirect(conn, params) do
 end
 ```
 
-e.g: 
+e.g:
 [`/lib/app_web/controllers/quotes_controller.ex#L16-L18`](https://github.com/dwyl/phoenix-content-negotiation-tutorial/blob/ffaeecd5fc0712631563e37c3315704e1853b68a/lib/app_web/controllers/quotes_controller.ex#L16-L18)
 
 
 
-You can now visit 
-[http://localhost:4000/.json](http://localhost:4000/.json) 
+You can now visit
+[http://localhost:4000/.json](http://localhost:4000/.json)
 in your web browser
 to view a random quote in `JSON` format:
 

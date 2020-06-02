@@ -18,6 +18,7 @@ defmodule AppWeb.Router do
     pipe_through :any
 
     get "/", QuotesController, :index
+    get "/ping", PingController, :ping
     get "/*wildcard", QuotesController, :redirect
   end
 end

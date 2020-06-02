@@ -57,6 +57,9 @@ defmodule App.MixProject do
       # content negotiation plug: https://github.com/dwyl/content
       {:content, "~> 1.3.0"},
 
+      # ping to wake the ("Free") Heroku dyno: https://github.com/dwyl/ping
+      {:ping, "~> 1.0.0"},
+
       # Test Code Coverage:
       {:excoveralls, "~> 0.12.2", only: :test}
     ]
